@@ -1,0 +1,270 @@
+
+body{
+	font-size: 13px;
+}
+.contain{
+	margin: 20px;
+	background: #fff;
+}
+.header{
+	padding: 10px 10px;
+	border-bottom: 1px solid #ccc;
+}
+.header-text{
+	line-height: 40px;
+	width: 65%;
+}
+.header-btn{
+	font-size: 12px;
+	float: right;
+	margin-left: 20px;
+	border-radius: 10px;
+	height: 30px;
+	line-height: 30px;
+	margin-top: 5px;
+}
+.middle{
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20px;
+	padding: 0 10px;
+}
+.middle img{
+	width: 16px;
+	height: 16px;
+	margin: -3px 4px 0 0;
+}
+.middle-date{
+	display: flex;
+	width: 140px;
+    height: 30px;
+    border: 1px solid #eeeeee;
+}
+.middle-date img{
+	width: 16px;
+	height: 16px;
+	margin-top: 6px;
+}
+#date0{
+	width: 105px;
+    height: 20px;
+    border: none;
+    margin: 5px 0 0 10px;
+}
+.middle-query{
+	height: 32px;
+	line-height: 32px;
+	margin: 0 20px;
+}
+.middle-prev{
+	padding: 5px 10px 5px 2px;
+	cursor: pointer;
+}
+.middle-next{
+    padding: 5px 0px 5px 10px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.middle-right{
+	display: flex;
+	justify-content: flex-end;
+	line-height: 30px;
+}
+.middle-right div{
+	margin-right: 10px;
+}
+.bottom{
+	border: 1px solid #ccc;
+	margin: 20px 0 0 0;
+}
+.bottom-table{
+	width: 100%;
+}
+.table-date-tr{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	background-color: #f8f8f9;
+}
+.table-item{
+	display: flex;
+	flex-direction: column;
+	width: 15%;
+}
+.item-top{
+	height: 45px;
+	line-height: 45px;
+}
+.item-bottom{
+	height: 35px;
+	border-top: 1px solid #dddddd;
+	line-height: 35px
+
+}
+.house_select{
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	color: #ff6600
+}
+.houseInfo-table{
+	width: 100%;
+	margin-top: 30px;
+	height: 80px;
+	border: 1px solid #ccc;
+}
+
+.house-header{
+	padding: 10px;
+	display: flex;
+}
+.house-header img{
+	width: 100px;
+	height: 70px;
+}
+.header-status{
+	display: flex;
+	margin: 30px 20px 0 0;
+	width:50%;
+	justify-content:flex-end;
+}
+.circle{
+	margin: 5px
+}
+.house-price{
+	display: flex;
+	justify-content: space-around;
+}
+.house-price th{
+	width: 20%;
+}
+.price-item{
+	border: 1px solid rgb(243,243,243);
+	height: 80px;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+}
+.price-item img{
+	width: 15px;
+	height: 16px;
+}
+.guanli{
+	text-align: right;
+	padding: 20px;
+	color: #1E9FFF;
+}
+.guanli img{
+	width: 15px;
+	height: 15px;
+	margin-top: -3px;
+}
+.tab-sj-head{
+	display: flex;
+	padding: 10px;
+	border-bottom: 1px solid rgb(242,242,242);
+}
+.tab-house{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.tab-house li{
+	display: flex;
+	width: 23%;
+	height: 35px;
+	padding: 20px;
+	margin: 20px 0 0 20px;
+	border: 1px solid #ccc;
+}
+.house-aquire{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.switch_house-foot{
+	color: #999;
+	font-size: 12px;
+	margin-top: 20px
+}
+.switch_house-select{
+	width: 100%;
+    margin: 15px 0;
+    height: 25px;
+}
+.switch_house-date img{
+	width: 16px;
+	height: 16px;
+	float: right;
+	margin-top: 7px;
+    margin-right: 5px;
+}
+.pointer{
+	cursor: pointer;
+}
+#switch_house{
+	padding: 20px;
+}
+#switch_houses{
+	padding: 20px;
+}
+.switch_house-date{
+	margin: 10px 0;
+}
+.switch_house-date1{
+	display: flex;
+	width: 140px;
+    height: 30px;
+    border: 1px solid #eeeeee;
+}
+.switch_house-date-middle{
+	margin: 5px 20px;
+}
+.switch_house-date2{
+	display: flex;
+	width: 140px;
+    height: 30px;
+    border: 1px solid #eeeeee;
+}
+.switch_house-text{
+	margin: 10px 0;
+}
+#date1{
+	height: 30px;
+}
+#date2{
+	height: 30px;
+}
+.header-title{
+	text-align: left;
+	margin: 15px;
+	width: 50%
+}
+.dis-flex{
+	display: flex;
+}
+.layui-input{
+	border: none;
+}
+#price{
+	border: 1px solid #eeeeee;
+    height: 20px;
+}
+.house_select-minsu_name{
+	height: 20px;
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.page-box{
+	border-top: 1px solid #ddd;
+	padding: 25px 20px 25px 0;
+	display: flex;;
+	justify-content: flex-end;
+}
+.box-recordNum{
+	margin: 15px;
+}

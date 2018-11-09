@@ -1,0 +1,1 @@
+{"code":0,"msg":"success","count":2,"data":[{"id":1,"wechatInfo":"微信信息1","accountInfo":"账号信息1","depositMoney":50,"status":"未审核","applyTime":"2018-10-16 09:50:50"},{"id":2,"wechatInfo":"微信信息2","accountInfo":"账号信息2","depositMoney":50,"status":"未审核","applyTime":"2018-10-16 09:50:50"}]}

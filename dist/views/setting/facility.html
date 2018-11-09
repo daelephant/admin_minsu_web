@@ -1,0 +1,68 @@
+<script type="text/html" template>
+  <link rel="stylesheet" href="{{ layui.setter.base }}style/facility.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<script type="text/html" id="table-bar">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script type="text/html" id="icon">
+	<i class="daoke-icon {{d.icon}}"></i>
+</script>
+
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">主页</a>
+		<a><cite>设置</cite></a>
+		<a><cite>设施管理</cite></a>
+	</div>
+</div>
+
+<div class="contain">
+	<div>
+		<button class="layui-btn layui-btn-normal" @click="addPopup('添加设施')">添加</button>
+	</div>
+	<div>
+		<table class="layui-hide" lay-filter="table" lay-data="{id: 'facility_table'}"></table>
+	</div>
+	<!-- 添加设施弹出层 -->
+	<div id="addPopup" hidden>
+		<form class="layui-form add-form" action="" lay-filter="add_facility">
+			<div class="layui-form-item">
+				<label class="layui-form-label required">分类</label>
+				<div class="layui-input-inline" id="select_view_level"></div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label required">类型</label>
+				<div class="layui-input-inline" id="select_view_type"></div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label required">名称</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" autocomplete="off" name="title" lay-verify="required" id="input_title">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label required">icon名称</label>
+				<div class="layui-input-inline">
+					<input type="text" id="iconPicker" lay-filter="iconPicker" class="layui-input" name="icon">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn layui-btn-normal" lay-submit lay-filter="add_facility">确认</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+<script>
+	layui.use(['facility'],function(e) {
+        var facility = layui.facility;
+        facility.ac();
+             
+    });
+</script>

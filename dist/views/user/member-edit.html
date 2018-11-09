@@ -1,0 +1,178 @@
+<script type="text/html" template>
+  <link rel="stylesheet" href="{{ layui.setter.base }}style/member-edit.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">主页</a>
+		<a><cite>用户</cite></a>
+		<a><cite>用户列表</cite></a>
+		<a><cite>会员设置</cite></a>
+	</div>
+</div>
+
+<div class="contain">
+	<div class="title">会员管理</div>
+	<!-- tab选项卡 -->
+	<div class="layui-tab">
+		<ul class="layui-tab-title">
+			<li class="layui-this">会员等级设置</li>
+			<li>会员等级说明</li>
+		</ul>
+		<div class="layui-tab-content">
+			<!-- 会员等级设置内容 -->
+			<div class="level-edit layui-tab-item layui-show">
+				<form class="layui-form" action="" lay-filter="levelSetting">
+					<div class="level layui-form-item">
+						<label class="layui-form-label required">等级</label>
+						<div class="layui-input-inline" id="select_tpl_view"></div>						
+					</div>
+					<div class="level-text1">数字越大等级越高</div>
+					<div class="level-text2">会员满足条件等级从低到高自动升级，高等级不会自动降级</div>
+					<div class="level-text3">如需个别调整，请前往<a href="javascript:;" lay-href="user/user-list">会员列表</a>调整</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label required">等级名称</label>
+						<div class="layui-input-inline">
+							<input type="text" name="levelTitle" required  lay-verify="required" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label required">升级条件</label>
+						<div class="layui-input-inline" >
+							<div class="promote">
+								<span class="promote-span">累计完成订单金额满</span>
+								<input type="text" name="promoteCondition" required  lay-verify="required|number" autocomplete="off" class="pro-input layui-input">
+								<span>元</span>
+							</div>
+						</div>
+					</div>	
+					<div class="level-text1">会员升级条件</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label required">折扣</label>
+						<div class="promote layui-input-inline">
+							<input type="text" name="discount" required  lay-verify="required|number|discount" autocomplete="off" class="none-input layui-input">
+							<span>折</span>
+						</div>
+					</div>
+					<div class="level-text1">请输入0.1~10之间的数字</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label required">购买价格</label>
+						<div class="promote layui-input-inline">
+							<input type="text" name="price" required  lay-verify="required|number" autocomplete="off" class="none-input layui-input">
+							<span>元</span>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">会员图片</label>
+						<div class="promote layui-input-inline">
+							<input type="text" name="imgUrl" lay-verify="" autocomplete="off" class="img-input layui-input" v-model="imgUrl"> 
+						</div>
+						<div class="layui-upload layui-btn-group">
+							<button type="button" class="upload layui-btn layui-btn-primary" id="upload" @mouseenter="Tips('上传文件','upload')" @mouseleave="closeTips()" lay-data="{id: 'imgUrl'}">
+								<i class="layui-icon layui-icon-upload"></i>
+							</button>
+							<button type="button" class="layui-btn layui-btn-primary" id="lib" @mouseenter="Tips('从文件库选择','lib')" @mouseleave="closeTips()" @click="popupFileLib()">
+								<i class="layui-icon layui-icon-table"></i>
+							</button>
+							<button type="button" class="layui-btn layui-btn-primary" id="delete" @click="deleteImg()" @mouseenter="Tips('删除文件','delete')" @mouseleave="closeTips()">
+								<i class="layui-icon layui-icon-close"></i>
+							</button>
+						</div>
+					</div>
+					<div class="member-img">
+						<span class="img-xs">620x320</span>
+						<img alt="" id="memberImg" :src="imgUrl">
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label required">状态</label>
+						<div class="layui-input-inline">
+							<input type="radio" name="status" value="open" title="启用">
+							<input type="radio" name="status" value="close" title="禁用" checked>
+						</div>
+					</div>
+					<div class="layui-form-item layui-form-text">
+						<label class="layui-form-label required">会员权益提示</label>
+						<div class="layui-input-inline">
+							<textarea name="rightsTips" class="layui-textarea"></textarea>
+						</div>
+					</div>
+					<div class="layui-form-item layui-form-text">
+						<label class="layui-form-label required">会员购买提示</label>
+						<div class="layui-input-inline">
+							<textarea name="buyTips" class="layui-textarea"></textarea>
+							<span class="tips">购买此会员介绍</span>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+						<button class="layui-btn layui-btn-normal" lay-submit lay-filter="levelSetting">保存</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 会员等级说明内容 -->
+			<div class="level-edit layui-tab-item layui-form" lay-filter="levelDesc">
+				<div class="layui-form-item layui-form-text">
+					<label class="layui-form-label required">会员等级说明</label>
+					<div class="layui-input-inline">
+						<textarea name="levelDesc" class="layui-textarea" lay-verify="required"></textarea>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn layui-btn-normal" lay-submit lay-filter="levelDesc">保存</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 选择文件库弹出层 -->
+	<div id="fileLib" hidden>
+		<div class="top layui-form">
+			<div class="layui-input-block" style="margin-top: 8px;">
+				<input type="checkbox" lay-filter="ckb" lay-skin="primary" title="全选">
+			</div>
+			<button class="layui-btn layui-btn-danger" @click="deleteLibImg()">删除</button>
+			<button class="layui-btn layui-btn-normal upload" lay-data="{id: 'menusList'}">上传图片</button>
+			<div class="top-select" id="select_tpl_view2"></div>
+		</div>
+		<div class="middle">
+			<div class="left">
+				<div class="left-title" @click="addFolder()"><i class="icon-circle layui-icon layui-icon-add-circle"></i>添加分组</div>
+				<div v-for="(item,index) in groupList" :style="activeValue == index ? 'background: #fff' : ''" @click="clickFolder(index,item.id)">
+					<img src="static/img/folder.png" alt=""/>
+					<span v-if="isEditing && index == activeValue"><input class="editing-input" type="text" :value="item.name"></span>
+					<span v-else>{{ item.name }}</span>
+					<i @click.stop="editFolder(index)" v-show="index>1 && !(isEditing && index == activeValue)" class="icon-set layui-icon layui-icon-set"></i>
+					<div class="set-extend" v-if="index == editValue">
+						<span class="extend-edit" @click.stop="edit(item.name)">编辑</span>
+						<span class="extend-delete" @click.stop="deleteFolder(item)">删除</span>
+					</div>
+					<div class="set-extend" v-if="isEditing && index == activeValue">
+						<span class="extend-edit" @click.stop="confirmOrCancleEdit(index)">确认</span>
+						<span class="extend-delete" @click.stop="confirmOrCancleEdit(index,1)">取消</span>
+					</div>
+				</div>
+			</div>
+			<div class="right">
+				<div class="right-img" v-for="(item,idx) in fileList" @click="toggleSelected(idx)">
+					<img :src="item.file_url" alt=""/>
+					<div class="img-selected" v-if="item.selected == 1"><img src="static/img/selected.png" alt=""></div>
+				</div>
+			</div>
+		</div>
+		<div class="bottom">
+			<span v-if="!isLoadingMore">加载更多</span>
+			<span v-else><i class="layui-icon layui-icon-loading"></i></span>
+		</div>
+	</div>
+</div>
+
+<script>
+	layui.use(['member_edit'],function(e) {
+        var member_edit = layui.member_edit;
+        member_edit.ac();
+
+    });
+</script>

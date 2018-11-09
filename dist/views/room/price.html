@@ -1,0 +1,187 @@
+<script type="text/html" template>
+  <link rel="stylesheet" href="{{ layui.setter.base }}style/price.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">主页</a>
+		<a><cite>房屋</cite></a>
+		<a><cite>房价管理</cite></a>
+	</div>
+</div>
+<div class="contain layui-form" hidden>
+	<!-- 页面标题 -->
+	<div class="header layui-row">
+		<div class="header-text layui-col-xs8"><h3><b>价格管理</b></h3></div>
+		<div class="layui-col-xs4">
+			<button class="header-btn layui-btn layui-btn-normal" @click="popupHouse()">选择房屋</button>
+		</div>
+	</div>
+	<!-- 按钮栏 -->
+	<div class="middle">
+		<div class="dis-flex">
+			<div class="middle-date">
+				<input id="date0" type="text" v-model="date_select"></input>
+				<img src="static/img/rl.png"></img>
+			</div>
+			<div class="middle-query layui-btn layui-btn-normal" @click="query()">查询</div>
+			<div class="middle-prev layui-btn-primary" @click="prevWeek()">
+				<img class="prev-img" src="static/img/arrow_l.png"></img>前一周
+			</div> 
+			<div class="middle-next layui-btn-primary" @click="nextWeek()">
+				后一周<img src="static/img/arrow_r.png"></img>
+			</div>
+		</div>
+		<div class="middle-right">
+			<div>
+				<img src="static/img/ks.png"/>可售
+			</div>
+			<div>
+				<img src="static/img/yld.png"/>已售空
+			</div>
+			<div>
+				<img src="static/img/ft.png"/>已关房
+			</div>
+		</div>
+	</div>
+	<!-- 日期列表显示 -->
+	<div class="bottom">
+		<table class="bottom-table">
+				<tr class="table-date-tr">
+					<th class="table-item" v-for="item in dateList">
+						<div class='item-top'>{{ item.date }}</div>
+						<div class="item-bottom" :style="item.day == '日' || item.day == '六' ? 'color:#f30' : ''">{{ item.day }}</div>
+					</th>
+				</tr>
+		</table>
+	</div>
+	<!-- 房屋信息显示 -->
+	<div v-if="houseList.length!=0">
+		<table class="houseInfo-table" v-for="(item,idx) in houseList">
+			<!-- 房屋信息顶部显示 -->
+			<tr>
+				<th class="house-header">
+					<div><img :src="item.unit.pictureURL" alt=""/></div>
+					<div class="header-title">
+						<span>{{ item.unit.unitName }}</span><br>
+						<span>房屋编号：</span><span>{{ item.unit.unitNumber }}</span>(CNY<span>{{ item.unit.currencyCode }}</span>)
+					</div>
+					<div class="header-status">
+						<span class="circle layui-badge-dot" :class="item.unit.isActive ? 'layui-bg-green' : 'layui-bg-gray'"></span>
+						<span>{{ item.unit.isActive ? '已上架' : '未上架'}}</span>
+					</div>
+				</th>
+			</tr>
+			<!-- 房屋信息价格显示 -->
+			<tr class="house-price">
+				<th v-for="item2 in item.inventoryList">
+					<div class="price-item" @click="open_closeHouse(item2.date,item2.price,item.unit.unitName,item.unit.unitNumber,item.unit.room_id)" style="background: #ccc" v-if='item2.status == 5'>
+						<img src="static/img/ft.png"></img>
+					</div>
+					<div class="price-item" @click="open_closeHouse(item2.date,item2.price,item.unit.unitName,item.unit.unitNumber,item.unit.room_id)" v-else-if="item2.status == 6">
+						<div><span style="color: #f30">￥{{ item2.price }}</span></div>
+					</div>
+					<div class="price-item" @click="open_closeHouse(item2.date,item2.price,item.unit.unitName,item.unit.unitNumber,item.unit.room_id)" style="background: #e6e6e6" v-else>
+					</div>
+				</th>
+			</tr>
+			<!-- 房屋信息底部显示 -->
+			<tr>
+				<td class="guanli">
+					<span class="pointer" @click="toCreatRoom(item.unit.room_id)">全管理基础价</span>
+					<img src="static/img/arrow_r.png" alt="">
+				</td>
+			</tr>
+		</table>
+		<!-- <div class="page-box" v-show="houseList.length!=0">
+		    <div class="box-recordNum">共{{ total }}条</div>
+		    <div id="pages"></div>
+		</div> -->
+	</div>
+	<div class="house_select" v-else>
+		请选择房屋......
+	</div>
+	<!-- 选择房屋弹出层 -->
+	<div id="tab" class="layui-tab layui-tab-brief" lay-filter="tabber" hidden>
+		<ul class="layui-tab-title">
+		    <li class="layui-this" lay-id="1">上架房屋</li>
+		    <li lay-id='0'>下架房屋</li>
+		</ul>
+		<div class="layui-tab-content">
+			<!-- 上架房屋信息 -->
+		    <div class="layui-tab-item layui-show">
+		    	<div  class="tab-sj">
+		      		<div class="tab-sj-head">
+		      			<input type="checkbox" name="ckb" lay-skin="primary" lay-filter='activeUnit' title="全部" value="all">
+		      		</div>
+		      		<div class="tab-sj-context">
+		      			<ul id="tab-house-ul" class="tab-house">
+		      				<li v-for="(list,index1 in unitList">
+			      				<div class="house-aquire">
+			      					<input class="activeUnit" type="checkbox" lay-skin="primary" lay-filter="activeUnit" :value="index1">
+			      				</div>
+			      				<div>
+			      					<div>房屋编号：{{ list.unitNumber }}</div>
+			      					<div class="house_select-minsu_name">{{ list.introduction.minsu_name }}</div>
+			      				</div>
+		      				</li>
+		      			</ul>
+		      		</div>
+		      	</div>
+		    </div>
+			<!-- 下架房屋信息 -->
+		  	<div class="layui-tab-item">
+		  		<div class="tab-sj">
+		      		<div class="tab-sj-head">
+		      			<input type="checkbox" lay-skin="primary" title="全部" lay-filter="unactiveUnit" value="all">
+		      		</div>
+		      		<div class="tab-sj-context">
+		      			<ul id="tab-house-ul-una" class="tab-house">
+		      				<li v-for="(list,index2) in unitList">
+			      				<div class="house-aquire">
+			      					<input class="unactiveUnit" type="checkbox" lay-skin="primary" lay-filter="unactiveUnit" :value="index2">
+			      				</div>
+			      				<div>
+			      					<div>房屋编号：{{ list.unitNumber }}</div>
+			      					<div class="house_select-minsu_name">{{ list.introduction.minsu_name }}</div>
+			      				</div>
+		      				</li>
+		      			</ul>
+		      		</div>
+		      	</div>	      	
+		    </div>
+		</div>
+		<!-- <div class="tab-foot">一次性选择房屋过多，可能会影响页面响应效率</div> -->
+	</div> 
+	<!-- 修改房价弹出层 -->
+	<div id="switch_house" hidden>
+		<div>所选房屋：<span id="select_houseName">{{ changePriceList.houseName }}</span>(<span id="select_houseNum">{{ changePriceList.houseNum }}</span>)</div>
+		<div class="switch_house-date">
+			<div class="switch_house-text"><span style="color: #f30">*</span>适用日期</div>
+			<div class="dis-flex">
+				<div class="switch_house-date1">
+					<input id="date1" class="layui-input" type="text" v-model="changePriceList.date_begin">
+					<img src="static/img/rl.png"></img>
+				</div>
+				<div class="switch_house-date-middle">至</div>
+				<div class="switch_house-date2">
+					<input id="date2" class="layui-input" type="text" v-model="changePriceList.date_end">
+					<img src="static/img/rl.png"></img>
+				</div>
+			</div>
+		</div>
+		<div>
+		<div><span style="color: #f30">*</span>特殊价格</div>
+			<div style="padding: 10px 0">
+		      <input id="price" type="text" v-model="changePriceList.price" style="padding: 5px"></input>&nbsp;&nbsp;元
+		    </div>
+		</div>
+		<div class="switch_house-foot">您可以在此设置此段日期的特殊价格，设置后房屋将按此价格售卖。</div>
+	</div> 
+</div>
+<script>
+	layui.use(['price'],function(e) {
+        var price = layui.price;
+      	price.ac();
+    });
+</script>

@@ -1,0 +1,51 @@
+.contain{
+	margin: 20px;
+	padding: 20px;
+	background: #fff;
+}
+.title{
+	border-bottom: 1px solid #eee;
+	padding-bottom: 10px;
+}
+.header{
+	display: flex;
+	padding: 15px 0;
+}
+.header-left{
+	width: 8%;
+}
+.header-right{
+	display: flex;
+	width: 92%;
+	justify-content: flex-end;
+}
+.right-input{
+	width: 20%;
+}
+.right-btn button{
+	height: 37px;
+}
+.layui-table-cell{
+	text-align: center;
+}
+a.layui-btn{
+    height: 22px;
+    line-height: 22px;
+}
+.layui-form-switch {
+	height: 15px;
+	line-height: 15px;
+}
+.layui-form-switch i {
+	width: 13px;
+	height: 13px;
+	top: 1px;
+}
+.photo{
+	width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+.layui-form-select{
+    width: 120px;
+}

@@ -1,0 +1,58 @@
+<style type="text/css">
+	.layui-card-header h2 span {
+		font-size: 14px;
+	}
+</style>
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">主页</a>
+		<a><cite>设置</cite></a>
+		<a href="javascript:;" lay-href="home/citylist"><cite>小程序设置</cite></a>
+	</div>
+</div>
+
+<div class="layui-fluid">
+	<div class="layui-card">
+		<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+			<ul class="layui-tab-title">
+				<li class="layui-this">小程序消息模板</li>
+				<li>公众号消息模板</li>
+				
+			</ul>
+			<div class="layui-tab-content">
+				<div class="layui-tab-item layui-show">
+					<div class="layui-card-body" style="width:100%; text-align: center;">
+		                 <button class="layui-btn layui-btn-normal">一键同步小程序消息模板</button>
+					</div>
+				</div>
+				<div class="layui-tab-item">
+					<div class="layui-card-body" style="width:100%; text-align: center;">
+		                 <button class="layui-btn layui-btn-normal">一键同步公众号消息模板</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+  </div>
+  <script type="text/javascript">
+  	layui.use(['admin', 'citylist', 'table'], function(){
+    var $ = layui.$,
+        admin = layui.admin,
+        view = layui.view,
+        table = layui.table,
+        form = layui.form;
+        form.render();
+    form.render(null, 'app-content-list');
+    
+    //监听搜索
+    form.on('submit(LAY-app-contlist-search)', function(data){
+      var field = data.field;
+      
+      //执行重载
+      table.reload('LAY-app-content-list', {
+        where: field
+      });
+    });
+  }); 
+  </script>
+</div>

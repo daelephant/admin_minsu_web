@@ -1,0 +1,87 @@
+<style type="text/css">
+	.layui-card-header h2 span {
+		font-size: 14px;
+	}
+</style>
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">主页</a>
+		<a><cite>设置</cite></a>
+		<a href="javascript:;" lay-href="home/citylist"><cite>消息模板</cite></a>
+	</div>
+</div>
+
+<div class="layui-fluid">
+	<div class="layui-card">
+		<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+			<ul class="layui-tab-title">
+				<li class="layui-this">小程序消息模板</li>
+			</ul>
+			<div class="layui-tab-content">
+				<div class="layui-tab-item layui-show">
+					<div class="layui-card-body">
+						<div class="layui-row layui-col-space15">
+							<div class="layui-col-md12">
+								<div class="layui-row layui-col-space15">
+									<div class="layui-col-md3">
+										<div class="layui-card" style="background-color: #f9f4f4;">
+											<div class="layui-card-header">模板名称</div>
+											<div class="layui-card-body layadmin-takerates">
+												
+											</div>
+										</div>
+									</div>
+									<div class="layui-col-md3">
+										<div class="layui-card" style="background-color: #f9f4f4;">
+											<div class="layui-card-header">模板名称</div>
+											<div class="layui-card-body layadmin-takerates">
+												
+											</div>
+										</div>
+									</div>
+									<div class="layui-col-md3">
+										<div class="layui-card" style="background-color: #f9f4f4;">
+											<div class="layui-card-header">模板名称</div>
+											<div class="layui-card-body layadmin-takerates">
+												
+											</div>
+										</div>
+									</div>
+									<div class="layui-col-md3">
+										<div class="layui-card" style="background-color: #f9f4f4;">
+											<div class="layui-card-header">模板名称</div>
+											<div class="layui-card-body layadmin-takerates">
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		layui.use(['admin', 'citylist', 'table'], function() {
+			var $ = layui.$,
+				admin = layui.admin,
+				view = layui.view,
+				table = layui.table,
+				form = layui.form;
+			form.render();
+			form.render(null, 'app-content-list');
+
+			//监听搜索
+			form.on('submit(LAY-app-contlist-search)', function(data) {
+				var field = data.field;
+
+				//执行重载
+				table.reload('LAY-app-content-list', {
+					where: field
+				});
+			});
+		});
+	</script>
+</div>

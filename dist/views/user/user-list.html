@@ -1,0 +1,153 @@
+<script type="text/html" template>
+  <link rel="stylesheet" href="{{ layui.setter.base }}style/user-list.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<script type="text/html" id="table-bar">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script type="text/html" id="photo">
+	<img class="photo" src="{{ d.photo }}" alt="" />
+</script>
+
+<script type="text/html" id="switchTpl">
+  <input type="checkbox" name="status" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="statusSwitch" {{ d.status == 'open' ? 'checked' : '' }}>
+</script>
+
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">主页</a>
+		<a><cite>用户</cite></a>
+		<a><cite>用户列表</cite></a>
+	</div>
+</div>
+
+<div class="contain layui-form">
+	<!-- tab选项卡 -->
+	<div class="layui-tab" lay-filter="userTab">
+		<ul class="layui-tab-title">
+			<li class="layui-this" lay-id='0'>用户列表</li>
+			<li lay-id="1">核销员</li>
+			<li lay-id="2">会员等级</li>
+			<li lay-id="3">余额充值记录</li>
+			<li lay-id="4">会员购买记录</li>
+		</ul>
+		<div class="layui-tab-content">
+			<!-- 用户列表内容 -->
+			<div class="layui-tab-item layui-show">
+				<div class="user">
+					<div class="title"><h4><b>用户管理</b></h4></div>
+					<div class="header">
+						<div class="header-left" id="select_tpl_view"></div>
+						<div class="header-right">
+							<div class="right-input">
+								<input type="text" name="search" v-model="searchValue" required lay-verify="required" placeholder="微信昵称" autocomplete="off" class="layui-input"> 
+							</div>
+							<div class="right-btn">
+								<button class="layui-btn layui-btn-normal" @click="search()">搜索</button>
+							</div>
+						</div>
+					</div>
+					<div class="user-table">
+						<table class="layui-hide" id="user-table" lay-filter="user-table"></table>
+					</div>
+				</div>
+			</div>
+			<!-- 核销员内容 -->
+			<div class="layui-tab-item">
+				<div class="hxy">
+					<div class="title"><h4><b>核销员管理</b></h4></div>
+					<div class="header">
+						<div class="header-left">
+							<button class="layui-btn layui-btn-normal" @click="addHxy()">添加核销员</button>
+						</div>
+						<div class="header-right">
+							<div class="right-input">
+								<input type="text" name="title" v-model="searchValue" required lay-verify="required" placeholder="微信昵称" autocomplete="off" class="layui-input"> 
+							</div>
+							<div class="right-btn">
+								<button class="layui-btn layui-btn-normal" @click="search()">搜索</button>
+							</div>
+						</div>
+					</div>
+					<div class="hxy-table">
+						<table class="layui-hide" id="hxy-table"></table>
+					</div>
+				</div>
+			</div>
+			<!-- 会员等级内容 -->
+			<div class="layui-tab-item">
+				<div class="member">
+					<div class="title"><h4><b>会员等级</b></h4></div>
+					<div class="header">
+						<div class="header-left">
+							<button class="layui-btn layui-btn-normal" @click="toMemberEdit()">会员设置</button>
+						</div>
+						<div class="header-right">
+							<div class="right-input">
+								<input type="text" name="title" v-model="searchValue" lay-verify="required" placeholder="会员等级" autocomplete="off" class="layui-input"> 
+							</div>
+							<div class="right-btn">
+								<button class="layui-btn layui-btn-normal" @click="search()">搜索</button>
+							</div>
+						</div>
+					</div>
+					<div class="member-table">
+						<table class="layui-hide" id="member-table" lay-filter="member-table"></table>
+					</div>
+				</div>
+			</div>
+			<!-- 余额充值记录内容 -->
+			<div class="layui-tab-item">
+				<div class="recharge">
+					<div class="title"><h4><b>余额充值记录</b></h4></div>
+					<div class="header">
+						<div class="header-left">
+						</div>
+						<div class="header-right">
+							<div class="right-input">
+								<input type="text" name="title" v-model="searchValue" lay-verify="required" placeholder="微信昵称" autocomplete="off" class="layui-input"> 
+							</div>
+							<div class="right-btn">
+								<button class="layui-btn layui-btn-normal" @click="search()">搜索</button>
+							</div>
+						</div>
+					</div>
+					<div class="recharge-table">
+						<table class="layui-hide" id="recharge-table"></table>
+					</div>
+				</div>
+			</div>
+			<!-- 会员购买记录内容 -->
+			<div class="layui-tab-item">
+				<div class="buy">
+					<div class="title"><h4><b>会员购买记录</b></h4></div>
+					<div class="header">
+						<div class="header-left">							
+						</div>
+						<div class="header-right">
+							<div class="right-input">
+								<input type="text" name="title" v-model="searchValue" lay-verify="required" placeholder="微信昵称" autocomplete="off" class="layui-input"> 
+							</div>
+							<div class="right-btn">
+								<button class="layui-btn layui-btn-normal" @click="search()">搜索</button>
+							</div>
+						</div>
+					</div>
+					<div class="buy-table">
+						<table class="layui-hide" id="buy-table"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	layui.use(['user_list'],function(e) {
+        var user_list = layui.user_list;
+        user_list.ac();
+      
+    });
+</script>

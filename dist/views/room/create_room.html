@@ -1,0 +1,607 @@
+<style type="text/css">
+	.layui-card-header h2 span {
+		font-size: 14px;
+	}
+	
+	.pdr-5 {
+		padding: 0 5px 0 0;
+	}
+	
+	.pd-10 {
+		padding: 5px;
+	}
+	
+	.boreder {
+		border: 1px solid #E5E5E5;
+	}
+	
+	.bpad-5 .layui-col-xs2 {
+		padding-right: 5px;
+	}
+	
+	.room-img {
+		width: 100%;
+	}
+	
+	.layui-form-label {
+		width: 120px;
+		font-size: 12px;
+	}
+	
+	.layui-form-item {
+		padding-bottom: 5px;
+	}
+	
+	.layui-tab-content div {
+		font-size: 12px;
+	}
+	
+	.layui-card .layui-tab-brief .layui-tab-title li.layui-this {
+		color: #5FB878;
+	}
+</style>
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">主页</a>
+		<a><cite>房屋</cite></a>
+		<a><cite>房源管理</cite></a>
+		<a><cite>房源创建</cite></a>
+	</div>
+</div>
+<form class="layui-form layui-row" action="">
+<div class="layui-fluid">
+	<div class="layui-card" style="padding-bottom: 30px;">
+		<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+			<ul class="layui-tab-title" id="nav-menu">
+				<li class="layui-this"><i class="layui-icon layui-icon-location"></i> 房屋位置</li>
+				<li><i class="layui-icon layui-icon-read"></i> 房屋详情</li>
+				<li><i class="layui-icon layui-icon-survey"></i> 房屋描述</li>
+				<li><i class="layui-icon layui-icon-vercode"></i> 设施服务</li>
+				<li><i class="layui-icon layui-icon-list"></i> 入住规则</li>
+				<li><i class="layui-icon layui-icon-picture-fine"></i> 房屋照片</li>
+				<li><i class="layui-icon layui-icon-rmb"></i> 价格</li>
+			</ul>
+				<div class="layui-tab-content">
+					<div class="layui-tab-item layui-show">
+						<div class="layui-card-body">
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>地区/城市：</label>
+								<div class="layui-col-xs6">
+									<div class="layui-col-xs4 pdr-5">
+										<select name="room_address[city_id]">
+											<option value="">请选择城市</option>
+											<option value="0">美食</option>
+											<option value="1">新闻</option>
+											<option value="2">八卦</option>
+											<option value="3">体育</option>
+											<option value="4">音乐</option>
+										</select>
+									</div>
+									<div class="layui-col-xs4">
+										<select name="room_address[ares_id]">
+											<option value="">请选择区域</option>
+											<option value="0">美食</option>
+											<option value="1">新闻</option>
+											<option value="2">八卦</option>
+											<option value="3">体育</option>
+											<option value="4">音乐</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>地址：</label>
+								<div class="layui-col-xs6">
+									<input type="text" name="room_address[address]" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+									<div class="layui-form-mid layui-word-aux"></div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">补充说明：</label>
+								<div class="layui-col-xs6">
+									<input type="text" name="room_address[address_other]" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+									<div class="layui-form-mid layui-word-aux">选填</div>
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">门牌号：</label>
+								<div class="layui-col-xs6">
+									<input type="text" name="room_address[door_number]" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+									<div class="layui-form-mid layui-word-aux">选填</div>
+								</div>
+							</div>
+							<div class="layui-form-item" style="margin-bottom: -11px;">
+								<label class="layui-form-label">地图定位</label>
+								<div class="layui-input-block">
+									<div class="layui-form-mid layui-word-aux">房屋在地图上的标点位置很重要，游客会根据此位置来找到你们，为尽量确保标点的准确性，请拖拽地图或鼠标双击目标位置进行打点</div>
+									<div style="height: 420px; padding-top: 30px;">
+										<iframe src="/web/map.html" frameborder="0" class="layadmin-iframe" style="height: 420px; margin-top: 30px;"></iframe>
+									</div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label" style="width: 93px;"></label>
+								<div class="layui-col-xs6" style="font-weight: 700;">位置坐标：</div>
+								<input type="hidden" name="room_address[lat]" value="" />
+								<input type="hidden" name="room_address[lng]" value="" />
+							</div>
+							<div class="layui-form-item" style="text-align: right;">
+								<button class="layui-btn layui-btn-normal">保存</button>
+							</div>
+						</div>
+					</div>
+					<!--2、房屋详情-->
+					<div class="layui-tab-item">
+						<div class="layui-card-body">
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>出租方式：</label>
+								<div class="layui-col-xs6">
+									<input type="radio" name="room_desc[sale_type]" lay-skin="primary" title="整套出租" checked="">
+									<input type="radio" name="room_desc[sale_type]" lay-skin="primary" title="单间出租">
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>房屋类型：</label>
+								<div class="layui-col-xs8">
+									<div class="layui-col-xs7">
+										<input type="radio" name="room_desc[horse_type]" lay-skin="primary" title="公寓" checked="">
+										<input type="radio" name="room_desc[horse_type]" lay-skin="primary" title="客栈">
+										<input type="radio" name="room_desc[horse_type]" lay-skin="primary" title="别墅">
+										<input type="radio" name="room_desc[horse_type]" lay-skin="primary" title="其他/特色">
+									</div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"></label>
+								<div class="layui-col-xs5">
+									<select name="room_desc[horse_spacle]">
+										<option value="">请选择</option>
+										<option value="0">美食</option>
+										<option value="1">新闻</option>
+										<option value="2">八卦</option>
+										<option value="3">体育</option>
+										<option value="4">音乐</option>
+									</select>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>房屋面积：</label>
+								<div class="layui-col-xs4">
+									<input type="number" name="room_desc[horse_type]" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+									<div class="layui-form-mid layui-word-aux">选填</div>
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>房屋景观：</label>
+								<div class="layui-col-xs6">
+									<select name="room_desc[horse_type]">
+										<option value="">请选择</option>
+										<option value="0">美食</option>
+										<option value="1">新闻</option>
+										<option value="2">八卦</option>
+										<option value="3">体育</option>
+										<option value="4">音乐</option>
+									</select>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>房屋户型：</label>
+								<div class="layui-col-xs8 bpad-5">
+									<div class="layui-col-xs2">
+										<input type="text" name="room_desc[horse_type]" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+										<div class="layui-form-mid layui-word-aux">卧室</div>
+									</div>
+									<div class="layui-col-xs2">
+										<input type="text" name="room_desc[horse_type]" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+										<div class="layui-form-mid layui-word-aux">卫生间</div>
+									</div>
+									<div class="layui-col-xs2">
+										<input type="text" name="room_desc[horse_type]" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+										<div class="layui-form-mid layui-word-aux">客厅</div>
+									</div>
+									<div class="layui-col-xs2">
+										<input type="text" name="room_desc[horse_type]" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+										<div class="layui-form-mid layui-word-aux">书房</div>
+									</div>
+									<div class="layui-col-xs2">
+										<input type="text" name="room_desc[horse_type]" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+										<div class="layui-form-mid layui-word-aux">阳台</div>
+									</div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>宜住人数：</label>
+								<div class="layui-col-xs6">
+									<select name="room_desc[horse_type]">
+										<option value="">请选择</option>
+										<option value="0">美食</option>
+										<option value="1">新闻</option>
+										<option value="2">八卦</option>
+										<option value="3">体育</option>
+										<option value="4">音乐</option>
+									</select>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>床型：</label>
+								<div class="layui-col-xs6">
+									<div class="layui-col-xs5">
+									<select name="room_desc[horse_type]">
+										<option value="">请选择</option>
+										<option value="0">美食</option>
+										<option value="1">新闻</option>
+										<option value="2">八卦</option>
+										<option value="3">体育</option>
+										<option value="4">音乐</option>
+									</select>
+								   </div>
+								   <div class="layui-col-xs5">
+									<select name="room_desc[horse_type]">
+										<option value="">请选择</option>
+										<option value="0">美食</option>
+										<option value="1">新闻</option>
+										<option value="2">八卦</option>
+										<option value="3">体育</option>
+										<option value="4">音乐</option>
+									</select>
+								</div>
+								<div class="layui-col-xs2" style="padding-left:5px;padding-top: 3px;">
+									<button class="layui-btn layui-btn-normal">添加</button>
+									</div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>房屋数量：</label>
+								<div class="layui-col-xs6">
+									<input type="number" name="room_desc[horse_type]" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+									<div class="layui-form-mid layui-word-aux">房屋数量是指相同类型房屋的数量，最终会以库存的形式呈现，并且该信息审核通过后不可修改。</div>
+								</div>
+							</div>
+							<div class="layui-form-item" style="text-align: right;">
+								<button class="layui-btn layui-btn-normal">保存</button>
+							</div>
+
+						</div>
+
+					</div>
+					<!--3、房屋描述-->
+					<div class="layui-tab-item">
+						<div class="layui-card-body">
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>房屋名称：</label>
+								<div class="layui-col-xs6">
+									<input type="number" name="room_desc2[horse_type]" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>房屋特殊：</label>
+								<div class="layui-col-xs6">
+									<textarea name="room_desc2[]" placeholder="请输入内容" class="layui-textarea"></textarea>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">房屋位置：</label>
+								<div class="layui-col-xs6">
+									<textarea name="room_desc2[]" placeholder="请输入内容" class="layui-textarea"></textarea>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>周边介绍：</label>
+								<div class="layui-col-xs6">
+									<textarea name="room_desc2[]" placeholder="请输入内容" class="layui-textarea"></textarea>
+								</div>
+							</div>
+							<div class="layui-form-item" style="text-align: right;">
+								<button class="layui-btn layui-btn-normal">保存</button>
+							</div>
+
+						</div>
+					</div>
+					<!--4、设施服务-->
+					<div class="layui-tab-item">
+						<div class="layui-card-body">
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>居家：</label>
+								<div class="layui-col-xs8">
+									<div class="layui-col-xs2">
+										<input type="checkbox" name="room_service[write]" lay-skin="primary" title="无线网络" checked="">
+									</div>
+								</div>
+							</div>
+							<div class="layui-form-item" style="text-align: right;">
+								<button class="layui-btn layui-btn-normal">保存</button>
+							</div>
+
+						</div>
+					</div>
+					<!--5、入驻规则-->
+					<div class="layui-tab-item">
+						<div class="layui-card-body">
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>入店规则：</label>
+								<div class="layui-col-xs3 pdr-5">
+									<select name="room_armi[horse_spacle]">
+										<option value="">请选择</option>
+										<option value="0">美食</option>
+										<option value="1">新闻</option>
+										<option value="2">八卦</option>
+										<option value="3">体育</option>
+										<option value="4">音乐</option>
+									</select>
+									<div class="layui-form-mid layui-word-aux">房客离店时间</div>
+								</div>
+								<div class="layui-col-xs3">
+									<select name="room_armi[horse_spacle]">
+										<option value="">请选择</option>
+										<option value="0">美食</option>
+										<option value="1">新闻</option>
+										<option value="2">八卦</option>
+										<option value="3">体育</option>
+										<option value="4">音乐</option>
+									</select>
+									<div class="layui-form-mid layui-word-aux">房客入住时间</div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>接待房客的时间：</label>
+								<div class="layui-col-xs3 pdr-5">
+									<select name="room_armi[horse_spacle]">
+										<option value="">请选择</option>
+										<option value="0">美食</option>
+										<option value="1">新闻</option>
+										<option value="2">八卦</option>
+										<option value="3">体育</option>
+										<option value="4">音乐</option>
+									</select>
+								</div>
+								<div class="layui-col-xs3">
+									<select name="room_armi[horse_spacle]">
+										<option value="">请选择</option>
+										<option value="0">美食</option>
+										<option value="1">新闻</option>
+										<option value="2">八卦</option>
+										<option value="3">体育</option>
+										<option value="4">音乐</option>
+									</select>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>接待性别：</label>
+								<div class="layui-col-xs3">
+									<input type="radio" name="room_armi[horse_type]" lay-skin="primary" title="公寓" checked="">
+									<input type="radio" name="room_armi[horse_type]" lay-skin="primary" title="客栈">
+									<input type="radio" name="room_armi[horse_type]" lay-skin="primary" title="别墅">
+								</div>
+
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>接待特殊年龄段：</label>
+								<div class="layui-col-xs3">
+									<input type="radio" name="room_armi[horse_type]" lay-skin="primary" title="公寓" checked="">
+									<input type="radio" name="room_armi[horse_type]" lay-skin="primary" title="客栈">
+									<input type="radio" name="room_armi[horse_type]" lay-skin="primary" title="别墅">
+								</div>
+
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>打扫换洗方式：</label>
+								<div class="layui-col-xs3 pdr-5">
+									<select name="room_armi[horse_spacle]">
+										<option value="">请选择</option>
+										<option value="0">美食</option>
+										<option value="1">新闻</option>
+										<option value="2">八卦</option>
+										<option value="3">体育</option>
+										<option value="4">音乐</option>
+									</select>
+									<div class="layui-form-mid layui-word-aux">多久提供打扫卫生</div>
+								</div>
+								<div class="layui-col-xs3">
+									<select name="room_armi[horse_spacle]">
+										<option value="">请选择</option>
+										<option value="0">美食</option>
+										<option value="1">新闻</option>
+										<option value="2">八卦</option>
+										<option value="3">体育</option>
+										<option value="4">音乐</option>
+									</select>
+									<div class="layui-form-mid layui-word-aux">多久提供被单更换</div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>对房客的要求：</label>
+								<div class="layui-col-xs2">
+									<input type="radio" name="room_armi[horse_type]" lay-skin="primary" title="允许吸烟">
+									<input type="radio" name="room_armi[horse_type]" lay-skin="primary" title="允许带宠物">
+									<input type="radio" name="room_armi[horse_type]" lay-skin="primary" title="允许做饭">
+									<input type="radio" name="room_armi[horse_type]" lay-skin="primary" title="允许聚会">
+									<input type="radio" name="room_armi[horse_type]" lay-skin="primary" title="允许加人">
+									<input type="radio" name="room_armi[horse_type]" lay-skin="primary" title="允许商业拍摄">
+									<input type="radio" name="room_armi[horse_type]" lay-skin="primary" title="允许房客加床">
+
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>对房客的要求：</label>
+								<div class="layui-col-xs6">
+									<textarea name="room_armi[]" placeholder="请输入内容" class="layui-textarea"></textarea>
+								</div>
+							</div>
+							<div class="layui-form-item" style="text-align: right;">
+								<button class="layui-btn layui-btn-normal">保存</button>
+							</div>
+						</div>
+					</div>
+					<!--6 照片-->
+					<div class="layui-tab-item">
+						<div class="layui-card-body">
+							<fieldset class="layui-elem-field layui-field-title">
+								<legend style="font-size: 15px;">房屋照片<span style="font-size: 10px; color: #948686;"> 点击图片维护图片标签，房客查看更方便，有利于促进成单呦～</span></legend>
+							</fieldset>
+							<div class="layui-form-item">
+								<div class="layui-col-md12">
+									<div class="layui-col-md3 pd-10">
+										<img class="room-img" src="https://pic.tujia.com/upload/landlordunit/day_180913/201809130920566587_s.jpg" />
+									</div>
+								</div>
+							</div>
+							<div class="layui-form-item" style="text-align: right;">
+								<button class="layui-btn layui-btn-normal">上传图片</button>
+							</div>
+						</div>
+					</div>
+                  <!--7/价格-->
+					<div class="layui-tab-item">
+						<div class="layui-card-body" style="overflow: hidden;">
+							<fieldset class="layui-elem-field layui-field-title">
+								<legend style="font-size: 15px;">价格设置<span style="font-size: 10px; color: #948686;"> 
+									基础价是基本售卖价格，长期有效，如果您在房态日历中修改了特定日期的价格，则特定日期之外的所有日期按照此价格售卖
+								</span>
+								</legend>
+							</fieldset>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>售卖方式：</label>
+								<div class="layui-col-xs3 pdr-5">
+									<input type="radio" name="room_price[horse_type]" lay-skin="primary" title="每周同价">
+									<input type="radio" name="room_price[horse_type]" lay-skin="primary" title="周中、周末不同价">
+								</div>
+
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"></label>
+								<div class="layui-col-xs3 pdr-5">
+									<input type="text" name="room_price[]" lay-verify="required|number" autocomplete="off" class="layui-input" checked="checked">
+									<div class="layui-form-mid layui-word-aux">工作日价（周日-周四）</div>
+								</div>
+								<div class="layui-col-xs3 pdr-5">
+									<input type="text" name="room_price[]" lay-verify="required|number" autocomplete="off" class="layui-input">
+									<div class="layui-form-mid layui-word-aux">周末价（周五-周六）</div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>售卖价格覆盖范围：</label>
+								<div class="layui-col-xs6 pdr-5">
+									<input type="radio" name="room_price[horse_type]" lay-skin="primary" title="仅覆盖原有基础价" checked="checked">
+									<input type="radio" name="room_price[horse_type]" lay-skin="primary" title="覆盖所有价格">
+								</div>
+							</div>
+							<div class="layui-form-item" style="text-align: right;">
+								<button class="layui-btn layui-btn-normal">保存</button>
+							</div>
+							<fieldset class="layui-elem-field layui-field-title">
+								<legend style="font-size: 15px;">连住折扣</legend>
+							</fieldset>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label"></label>
+								<div class="layui-col-xs6 pdr-5">
+									<div class="layui-col-xs6 pdr-5">
+										连住天数
+									</div>
+									<div class="layui-col-xs6 pdr-5">
+										折扣设置
+									</div>
+									<div class="layui-col-xs6 pdr-5">
+										<select name="room_price[horse_spacle]">
+											<option value="">请选择</option>
+											<option value="0">美食</option>
+											<option value="1">新闻</option>
+											<option value="2">八卦</option>
+											<option value="3">体育</option>
+											<option value="4">音乐</option>
+										</select>
+									</div>
+									<div class="layui-col-xs6 pdr-5">
+										<input type="text" name="number" lay-verify="required|number" autocomplete="off" class="layui-input">
+									</div>
+								</div>
+							</div>
+							<div class="layui-form-item" style="text-align: right;">
+								<button class="layui-btn layui-btn-normal">保存</button>
+							</div>
+							<fieldset class="layui-elem-field layui-field-title">
+								<legend style="font-size: 15px;">订房营销设置</legend>
+							</fieldset>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>最少预定天数：</label>
+								<div class="layui-col-xs3 pdr-5">
+									<input type="number" name="room_price[mini_day]" lay-skin="primary" class="layui-input">
+								</div>
+								<div class="layui-col-xs3 pdr-5" style="line-height: 38px;">
+									天
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>是否收取押金：</label>
+								<div class="layui-col-xs2 pdr-5">
+									<input type="checkbox" name="room_price[is_yajin]" title="收取住房押金" checked="checked">
+								</div>
+								<div class="layui-col-xs5 pdr-5">
+									<input type="text" name="number" lay-verify="required|number" autocomplete="off" class="layui-input">
+									<div class="layui-form-mid layui-word-aux">押金金额 途家网目前仅支持线上收取押金</div>
+								</div>
+							</div>
+							<fieldset class="layui-elem-field layui-field-title">
+								<legend style="font-size: 15px;">退款规则</legend>
+							</fieldset>
+							<div class="layui-form-item">
+								<div class="layui-card-body" style="border: none;">
+									<p style="margin-bottom: 10px;">宽松的退款规则会让更多的人预订您的房屋</p>
+									<div class="layui-col-xs1 pdr-5" style="text-align: right; line-height: 38px;width: 3.333333%;">
+										入驻
+									</div>
+									<div class="layui-col-xs2 pdr-5">
+										<select name="room_price[in_discount]">
+											<option value="">请选择</option>
+											<option value="0">美食</option>
+											<option value="1">新闻</option>
+											<option value="2">八卦</option>
+											<option value="3">体育</option>
+											<option value="4">音乐</option>
+										</select>
+									</div>
+									<div class="layui-col-xs5 pdr-5" style="line-height: 38px;">
+										12点前取消订单，房屋可全额退还；
+									</div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<div class="layui-card-body" style="border: none;">
+									<div class="layui-col-xs3 pdr-5" style="text-align: right; line-height: 38px; width:     width: 23%;;">
+										在此之后取消订单，将收取未住宿房费的
+									</div>
+									<div class="layui-col-xs2 pdr-5">
+										<select name="room_price[out_pay]">
+											<option value="">请选择</option>
+											<option value="0">美食</option>
+											<option value="1">新闻</option>
+											<option value="2">八卦</option>
+											<option value="3">体育</option>
+											<option value="4">音乐</option>
+										</select>
+									</div>
+									<div class="layui-col-xs5 pdr-5" style="line-height: 38px;">
+										作为违约金支付给房东。（包含未入住和提前离店）
+									</div>
+								</div>
+							</div>
+							<div class="layui-form-item" style="text-align: right;">
+								<button class="layui-btn layui-btn-normal">保存</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>	
+			
+		</div>
+	</div>
+	<script type="text/javascript">
+		layui.use(['room_create'],function(e) {
+              var room_create= layui.room_create;
+		});
+	</script>
+</div>
+</form>

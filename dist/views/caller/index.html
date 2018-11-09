@@ -1,0 +1,67 @@
+<title>
+
+	客户列表</title>
+
+<script type="text/html" template>
+	<link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1s" media="all">
+</script>
+
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">主页</a>
+		<a><cite>商户</cite></a>
+		<a><cite>商户列表</cite></a>
+	</div>
+</div>
+
+<div class="layui-fluid">
+	<div class="layadmin-caller">
+		<form class="layui-form caller-seach" action="">
+			<i class="layui-icon layui-icon-search caller-seach-icon caller-icon"></i>
+			<input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input caller-pl32">
+			<i class="layui-icon layui-icon-close caller-dump-icon caller-icon"></i>
+		</form>
+		<div class="layui-tab layui-tab-brief caller-tab" lay-filter="docDemoTabBrief">
+			<ul class="layui-tab-title">
+				<li class="layui-this">待审核</li>
+				<li>已审核</li>
+				<li>已锁定</li>
+				<li>添加商户</li>
+			</ul>
+		</div>
+		<div class="caller-contar">
+			<div class="caller-item">
+					<img src="http://pbqr14zsf.bkt.clouddn.com/uploads/20180717/FsTjp0Ivn1enPQ9pL-iLJD6bmVP3.jpg" alt="" class="caller-img caller-fl">
+				<div class="caller-main caller-fl">
+					<p><strong>名称</strong> <em>最近联系：1 小时前</em></p>
+					<p class="caller-adds"><i class="layui-icon layui-icon-location"></i>浙江省广州市越秀区中山六路109</p>
+					<div class="caller-iconset">
+						<span class="layui-badge layui-bg-red">订单:340</span>
+						<span class="layui-badge layui-bg-blue">成交：20000.00</span>
+						<span class="layui-badge-rim">房源数：222</span>
+					</div>
+				</div>
+				<button class="layui-btn layui-btn-sm caller-fr">
+          <i class="layui-icon layui-icon-read"></i>商户信息
+       </button>
+        <button class="layui-btn layui-btn-normal layui-btn-sm caller-fr mr-12">
+          <i class="layui-icon layui-icon-read"></i>锁定
+        </button>
+			</div>
+		</div>
+		<div id="demo-template-caller1"></div>
+	</div>
+</div>
+
+<script>
+	layui.use(['admin', 'laypage'], function() {
+		var $ = layui.$,
+			admin = layui.admin,
+			laypage = layui.laypage;
+
+		laypage.render({
+			elem: 'demo-template-caller1',
+			count: 70 //数据总数
+		});
+	});
+</script>

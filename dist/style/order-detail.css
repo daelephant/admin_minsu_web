@@ -1,0 +1,147 @@
+.contain{
+	margin: 20px;
+	padding: 0 10px 70px 10px;
+	background: #fff;
+}
+.title{
+	padding: 20px 0;
+}
+.title-orderTime{
+	float: right;
+}
+.orderStatus{
+    font-size: 16px;
+    color: #999;
+}
+.bookInfo{
+	padding: 10px;
+    border: 1px solid #e9eaec;
+    margin-bottom: 20px;
+}
+.bookInfo-text{
+	display: flex;
+	justify-content: space-between;
+}
+.bookInfo-context{
+	display: flex;
+	margin-top: 10px;
+}
+.left img{
+	width: 180px;
+	height: 130px;
+	margin-right: 10px;
+}
+.middle{
+	line-height: 25px;
+	width: 50%
+}
+.middle-paiqi{
+	color: #1E9FFF;
+}
+.right{
+	line-height: 25px;
+	width: 50%
+}
+.right img{
+	width: 17px;
+	height: 17px;
+	margin-left: 5px;
+    margin-top: -4px;
+}
+.blue{
+	color: #1E9FFF;
+	cursor: pointer;
+}
+.payInfo{
+	padding: 10px;
+    border: 1px solid #e9eaec;
+}
+.btn{
+	float: right;
+    margin-top: 20px;
+}
+.btn img{
+	width: 13px;
+    height: 13px;
+    margin: -2px 5px 0 0;
+}
+.bookInfo:hover{
+	box-shadow: 0 0 5px 2px #e9eaec
+}
+.payInfo:hover{
+	box-shadow: 0 0 5px 2px #e9eaec
+}
+.payInfo-price{
+	border: 1px solid #e9eaec;
+}
+.price-table th{
+	width: 150px;
+}
+.th-top{
+	height: 40px;
+	line-height: 40px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: transparent #e9eaec #e9eaec transparent;
+	background: #f5f5f5;
+} 
+.th-bottom{
+	height: 40px;
+	line-height: 40px;
+	border-right: 1px solid #e9eaec;
+}
+.th-bottom:hover{
+	background: #ebf7ff;
+}
+#extend{
+	padding: 20px 10px;
+}
+.extend-text{
+	color: #999;
+	font-size: 12px;
+	line-height: 20px;
+}
+.extend-input{
+	margin: 10px 0;
+}
+.extend-tele{
+	background: #f5f5f5;
+    height: 100px
+}
+.null-tele h4{
+	font-size: 33px;
+    line-height: 100px;
+    color: #ccc;
+    letter-spacing: 10px;
+    text-align: center;
+}
+.layui-input:hover{
+	border-color: #1E9FFF
+}
+.extend-ts{
+	margin: 10px 0;
+}
+.tele{
+	font-size: 36px;
+    line-height: 58px;
+    font-weight: 400;
+}
+.tele-text{
+	width: 100%;
+    font-size: 12px;
+    color: #999;
+    line-height: 24px;
+}
+.real-tele{
+	text-align: center;
+}
+.timeout{
+	color: #f30
+}
+.extend-btn{
+	margin-top: 10px;
+	background: #1E9FFF
+}
+a:hover{
+	color: #1E9FFF;
+}

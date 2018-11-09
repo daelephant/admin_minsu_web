@@ -1,0 +1,180 @@
+.layui-card-header h2 span {
+	font-size: 14px;
+}
+.dis-flex{
+	display: flex;
+	border: 1px solid #fff;
+}
+.sh-img{
+	position: relative;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    border: 1px solid #e3e3e3;
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 5px 0 5px 110px;
+    display: inline-block;
+    text-align: center;
+}
+.img-xs{
+	position: absolute;
+    top: 2px;
+    left: 4px;
+    font-size: .65rem;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75), 0 -1px 0 rgba(255, 255, 255, 0.75), 1px 0 0 rgba(255, 255, 255, 0.75), -1px 0 0 rgba(255, 255, 255, 0.75);
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1.25;
+}
+.sh-img img{
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto auto;
+}
+.upload{
+    padding: 0 10px;
+    height: 38px;
+    border-color: transparent #e6e6e6 transparent #e6e6e6;
+}
+.lib{
+    padding: 0 10px;
+    height: 38px;
+    border-color: transparent #e6e6e6 transparent #e6e6e6;
+}
+.delete{
+    padding: 0 10px;
+    height: 38px;
+    border-color: transparent;
+}
+.layui-btn-group{
+	margin-left: -10px;
+	border: 1px solid #e6e6e6;
+}
+.layui-btn-group .layui-btn-primary:first-child{
+	border-left: none;
+}
+#fileLib{
+    padding: 20px;
+}
+.top{
+    display: flex;
+    justify-content: flex-end;
+    border-bottom: 1px solid #e6e6e6;
+}
+.top .layui-form-select .layui-input{
+    height: 34px;
+}
+.top-select{
+    margin: 0 10px;
+}
+.top-select select{
+    height: 38px;
+    padding: 0 5px;
+}
+.middle{
+    display: flex;
+    height: 480px;
+}
+.left{
+    height: 100%;
+    overflow-y: auto;
+    margin: 10px 10px 0 0;
+    max-width: 153px;
+    width: 300px;
+    border: 1px solid #eee;
+    background-color: #f4f5f9;
+}
+.left-title{
+    text-align: center;
+    padding: 10px 0;
+    color: #0275d8;
+    background: #fff;
+    cursor: pointer;
+    border-bottom: 1px solid rgb(236, 236, 236);
+}
+.left div{
+    padding: 10px 0;
+    cursor: pointer;
+}
+.left div:hover{
+    background: #fff
+}
+.left img{
+    width: 16px;
+    height: 16px;
+    margin: 0 10px;
+}
+.icon-circle{
+    color:#0275d8;
+    margin-right: 5px
+}
+.icon-set{
+    float: right;
+    font-size: 14px;
+    color:#0275d8;
+    margin: 3px 10px 0 0;
+}
+.set-extend{
+    background: #fff;
+    margin: 10px 0 0 0
+}
+.extend-edit{
+    margin: 0 30px;
+    color: #0275d8;
+}
+.extend-delete{
+    color: #d9534f;
+}
+.editing-input{
+    width: 90px;
+    height: 25px;
+}
+.right{
+    margin-top: 10px;
+    width: 610px;
+    overflow-y: auto;
+}
+.right-img{
+    position: relative;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    border: 1px solid #e3e3e3;
+    border-radius: 2px;
+    overflow: hidden;
+    display: inline-block;
+    text-align: center;
+}
+.right-img:hover{
+    border-color: #0275d8;
+}
+.right-img img{
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto auto;
+}
+.img-selected{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .5);
+}
+.img-selected img{
+    width: 30px;
+}
+.bottom{
+    text-align: center;
+    border-bottom: 1px solid #e6e6e6;
+    color: #0275d8;
+}
+.layui-form-radio>i:hover, .layui-form-radioed>i {
+    color: #1E9FFF;
+}
+.tips{
+    color: #7b8c98;
+    font-size: .65rem;
+}

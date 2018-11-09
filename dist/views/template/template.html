@@ -1,0 +1,23 @@
+<!-- 分销、会员设置页面下拉列表框 -->
+<script type="text/html" id="select_tpl">
+	<select name="{{d.name}}" lay-verify="required" lay-filter="{{d.filter}}">
+		<option value="0">{{d.first}}</option>
+		{{#  layui.each(d.list, function(index, item){ }}
+			<option value="{{item.id}}">{{item.name}}</option>
+		{{#  }); }}
+  	</select>
+</script>
+
+<!-- 设施管理页面下拉列表框 -->
+<script type="text/html" id="facility_select_tpl">
+	<select name="{{d.name}}" id="">
+		{{#  if(d.name == 'pid'){ }}
+			<option value="0">无</option>
+		{{#  } }}
+
+		
+		{{#  layui.each(d.list, function(index, item){ }}
+			<option value="{{ item[d.value] }}">{{ item.title }}</option>
+		{{#  }); }}
+	</select>
+</script>

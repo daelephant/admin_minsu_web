@@ -1,0 +1,528 @@
+<script type="text/html" template>
+  <link rel="stylesheet" href="{{ layui.setter.base }}style/fenxiao.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<script type="text/html" id="photo">
+	<img class="photo" src="{{ d.photo }}" alt="" />
+</script>
+
+<script type="text/html" id="table-bar">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">主页</a>
+		<a><cite>营销</cite></a>
+		<a><cite>分销</cite></a>
+	</div>
+</div>
+
+<div class="contain">
+<!-- tab选项卡 -->
+	<div class="layui-tab" lay-filter="fx-tab">
+		<ul class="layui-tab-title">
+			<li class="layui-this" lay-id="0">分销商</li>
+			<li lay-id="1">分销订单</li>
+			<li lay-id="2">分销提现</li>
+			<li lay-id="3">分销设置</li>
+		</ul>
+		<div class="layui-tab-content">
+			<!-- 分销商内容 -->
+			<div class="layui-tab-item layui-show">
+				<div class="fxs">
+					<div class="title"><h4><b>分销商</b></h4></div>
+					<div class="header">
+						<div class="right-input">
+							<input type="text" name="title" v-model="searchValue" lay-verify="required" placeholder="姓名/微信昵称" autocomplete="off" class="layui-input"> 
+						</div>
+						<div class="right-btn">
+							<button class="layui-btn layui-btn-normal" @click="search()">搜索</button>
+							<button class="layui-btn layui-btn-normal" @click="passTogether()">批量通过</button>
+							<button class="layui-btn layui-btn-normal" @click="promote()">升为一级</button>
+						</div>
+					</div>
+					<div class="fxs-tab" hidden>
+						<div class="layui-tab layui-tab-card" lay-filter="fxs-tab">
+							<ul class="layui-tab-title">
+								<li class="layui-this" lay-id="0">全部</li>
+								<li lay-id="1">未审核（{{ uncheckedCount }}）</li>
+								<li lay-id="2">已审核（{{ checkedCount }}）</li>
+							</ul>
+						</div>
+						<div class="layui-tab-content">
+							<div class="fxs-table">
+								<table class="layui-hide" id="fxs-table" lay-filter="fxs-table"></table>
+							</div>
+						</div>
+					</div>					
+				</div>
+			</div>
+			<!-- 分销订单内容 -->
+			<div class="layui-tab-item">
+				<div class="order">
+					<div class="title"><h4><b>分销订单</b></h4></div>
+					<div class="header">
+						<div>
+							<input type="text" name="title" v-model="searchValue" lay-verify="required" placeholder="订单号/用户" autocomplete="off" class="layui-input"> 
+						</div>
+						<div>
+							<button class="layui-btn layui-btn-normal" @click="search()">搜索</button>
+						</div>
+					</div>
+					<div class="order-tab">
+						<div class="layui-tab layui-tab-card" lay-filter="order-tab">
+							<ul class="layui-tab-title">
+								<li class="layui-this" lay-id="0">全部</li>
+								<li lay-id="1">商城订单</li>
+								<li lay-id="2">秒杀订单</li>
+								<li lay-id="3">拼团订单</li>
+								<li lay-id="4">预约订单</li>
+							</ul>
+						</div>
+						<div class="layui-tab-content">
+							<div class="fxs-table">
+								<table class="layui-hide" id="order-table"></table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 分销提现内容 -->
+			<div class="layui-tab-item">
+				<div class="deposit">
+					<div class="title"><h4><b>提现列表</b></h4></div>
+					<div class="header">
+						<div>
+							<input type="text" name="title" v-model="searchValue" lay-verify="required" placeholder="姓名/微信昵称" autocomplete="off" class="layui-input"> 
+						</div>
+						<div>
+							<button class="layui-btn layui-btn-normal" @click="search()">搜索</button>
+						</div>
+					</div>
+					<div class="deposit-tab">
+						<div class="layui-tab layui-tab-card" lay-filter="deposit-tab">
+							<ul class="layui-tab-title">
+								<li class="layui-this">全部</li>
+								<li>未审核</li>
+								<li>待打款</li>
+								<li>已打款</li>
+								<li>无效</li>
+							</ul>
+						</div>
+						<div class="layui-tab-content">
+							<div class="fxs-table">
+								<table class="layui-hide" id="deposit-table" lay-filter="deposit-table"></table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 分销设置内容 -->
+			<div class="layui-tab-item">
+				<div class="setting">
+					<div class="title"><h4><b>分销设置</b></h4></div>
+					<div class="setting-tab">
+						<div class="layui-tab layui-tab-card" lay-filter="fx-settingTab">
+							<ul class="layui-tab-title">
+								<li class="layui-this" lay-id="base">基础设置</li>
+								<li lay-id='money'>佣金设置</li>
+								<li lay-id="custom">自定义设置</li>
+							</ul>
+							<div class="layui-tab-content">
+								<!-- 基础设置内容 -->
+								<div class="layui-tab-item layui-show">
+									<div class="set-title">基础设置</div>
+									<form class="set-from layui-form" action="" lay-filter="baseSetting">
+										<div class="layui-form-item">
+											<label class="layui-form-label required">分销层级</label>
+											<div class="layui-input-block">
+												<input type="radio" name="fxLevel" value="0" title="不开启" checked="">
+												<input type="radio" name="fxLevel" value="1" title="一级分销">
+												<input type="radio" name="fxLevel" value="2" title="二级分销">
+												<input type="radio" name="fxLevel" value="3" title="三级分销">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label required">分销内购</label>
+											<div class="layui-input-block">
+												<input type="radio" name="fxBuy" value="0" title="关闭" checked="">
+												<input type="radio" name="fxBuy" value="1" title="开启">
+											</div>
+										</div>
+										<div class="fx-tips2 layui-input-block">开启分销内购，分销商自己购买商品，享受一级佣金，上级享受二级佣金，上上级享受三级佣金</div>
+
+										<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+											<legend>上下线关系设置</legend>
+										</fieldset>
+										<div class="layui-form-item">
+											<label class="layui-form-label required">成为下线条件</label>
+											<div class="layui-input-block">
+												<input type="radio" name="becomeXiaXian" value="0" title="首次点击链接" checked="">
+											</div>
+										</div>
+
+										<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+											<legend>分销资格设置</legend>
+										</fieldset>
+										<div class="layui-form-item">
+											<label class="layui-form-label required">成为分销商条件</label>
+											<div class="layui-input-block">
+												<input type="radio" name="becomeFxs" value="0" title="无条件（需要审核）" checked="">
+												<input type="radio" name="becomeFxs" value="1" title="申请（需要审核）">
+												<input type="radio" name="becomeFxs" value="2" title="无需审核">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">推广海报图</label>
+											<div class="layui-input-block">
+												<button class="btn-spread layui-btn layui-btn-normal" type="button">设置</button>
+											</div>
+										</div>
+
+										<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+											<legend>分销佣金</legend>
+										</fieldset>
+										<div class="layui-form-item">
+											<label class="layui-form-label required">提现方式</label>
+											<div class="layui-input-block">
+												<input type="checkbox" name="depositType[wechat]" title="微信支付" checked="" lay-verify="required">
+												<input type="checkbox" name="depositType[alipay]" title="支付宝支付">
+												<input type="checkbox" name="depositType[bankcard]" title="银行卡支付">
+												<input type="checkbox" name="depositType[balance]" title="余额支付">
+											</div>
+										</div>
+										<div class="fx-tips2 layui-input-block">微信自动支付，需要申请微信支付的企业付款到零钱功能</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label required">最少提现额度</label>
+											<div class="dis-flex layui-input-inline">
+												<input type="text" name="depositPosition" autocomplete="off" value="1.0" class="none-input layui-input" lay-verify="required|number|position">
+												<span>元</span>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label required">每日提现上限</label>
+											<div class="dis-flex layui-input-inline">
+												<input type="text" name="depositLimit" autocomplete="off" value="1.0" class="none-input layui-input" lay-verify="required|number|limit">
+												<span>元</span>
+											</div>											
+										</div>
+										<div class="fx-tips2 layui-input-block">0元表示不限制每日提现金额</div>
+
+										<div class="layui-form-item">	
+											<label class="layui-form-label required">消费自动成为分销商</label>
+											<div class="dis-flex layui-input-inline">
+												<input type="text" name="becomeFxsPrice" autocomplete="off" value="1.0" class="none-input layui-input" lay-verify="required|number|limit">
+												<span>元</span>
+											</div>	
+										</div>
+										<div class="fx-tips2 layui-input-block">消费满指定金额自动成为分销商，0元表示不自动</div>
+
+										<div class="layui-form-item layui-form-text">
+											<label class="layui-form-label">用户须知</label>
+											<div class="layui-input-inline">
+												<textarea class="layui-textarea" name="userKnow"></textarea>
+											</div>
+										</div>
+
+										<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+											<legend>模板消息</legend>
+										</fieldset>
+										<div class="layui-form-item">
+											<label class="layui-form-label">提现到账通知模板消息id</label>
+											<div class="layui-input-inline">
+												<input type="text" name="depositSuccessModelID" autocomplete="off" class="layui-input">
+											</div>										
+										</div>
+										<div class="fx-tips2 layui-input-block">提现转账处理完成后向用户发送消息， <a href="javascript:;" @click="popupModel('如何获取提现到账通知模板消息id',0)">如何获取提现到账通知模板消息id</a></div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">提现失败通知模板消息id</label>
+											<div class="layui-input-inline">
+												<input type="text" name="depositFailModelID" autocomplete="off" class="layui-input">
+											</div>	
+										</div>
+										<div class="fx-tips2 layui-input-block">提现失败向用户发送消息， <a href="javascript:;" @click="popupModel('如何获取提现失败通知模板消息id',1)">如何获取提现失败通知模板消息id</a></div>
+
+										<div class="layui-form-item">
+											<label class="layui-form-label">分销审核通知模板消息id</label>
+											<div class="layui-input-inline">
+												<input type="text" name="fxExamineModelID" autocomplete="off" class="layui-input">
+											</div>											
+										</div>
+										<div class="fx-tips2 layui-input-block">分销审核结果向用户发送消息， <a href="javascript:;" @click="popupModel('如何获取分销审核通知模板消息id',2)">如何获取分销审核通知模板消息id</a></div>
+
+										<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+											<legend>分销协议</legend>
+										</fieldset>
+										<div class="layui-form-item layui-form-text">
+											<label class="layui-form-label">申请协议</label>
+											<div class="layui-input-inline">
+												<textarea class="layui-textarea" name="applyProtocol"></textarea>
+											</div>
+										</div>
+										
+										<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+											<legend>背景图片</legend>
+										</fieldset>
+										<div class="layui-form-item">
+											<label class="layui-form-label">审核页面</label>
+											<div class="dis-flex layui-input-inline">
+												<input type="text" name="shImgUrl" autocomplete="off" class="img-input layui-input" v-model="imgUrl1">				
+											</div>
+											<div class="layui-upload layui-btn-group">
+												<button id="upload1" type="button" class="upload layui-btn layui-btn-primary" @mouseenter="Tips('上传文件','upload1')" @mouseleave="closeTips()" lay-data="{id: 'imgUrl1'}">
+													<i class="layui-icon layui-icon-upload"></i>
+												</button>
+												<button id="lib1" type="button" class="lib layui-btn layui-btn-primary" @mouseenter="Tips('从文件库选择','lib1')" @mouseleave="closeTips()" @click="popupFileLib('imgUrl1')">
+													<i class="layui-icon layui-icon-table"></i>
+												</button>
+												<button id="delete1" type="button" class="delete layui-btn layui-btn-primary" @click="deleteImg('shImg')" @mouseenter="Tips('删除文件','delete1')" @mouseleave="closeTips()">
+													<i class="layui-icon layui-icon-close"></i>
+												</button>
+											</div> 
+										</div>
+										<div class="sh-img">
+											<span class="img-xs">750x300</span>
+											<img :src="imgUrl1" alt="" id="shImg">
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">待审核页面</label>
+											<div class="dis-flex layui-input-inline">
+												<input type="text" name="dshImgUrl" lay-verify="" autocomplete="off" class="img-input layui-input" v-model="imgUrl2"> 
+											</div>
+											<div class="layui-upload layui-btn-group">
+												<button id="upload2" type="button" class="upload layui-btn layui-btn-primary" @mouseenter="Tips('上传文件','upload2')" @mouseleave="closeTips()" lay-data="{id: 'imgUrl2'}">
+													<i class="layui-icon layui-icon-upload"></i>
+												</button>
+												<button id="lib2" type="button" class="lib layui-btn layui-btn-primary" @mouseenter="Tips('从文件库选择','lib2')" @mouseleave="closeTips()" @click="popupFileLib('imgUrl2')">
+													<i class="layui-icon layui-icon-table"></i>
+												</button>
+												<button id="delete2" type="button" class="delete layui-btn layui-btn-primary" @click="deleteImg('dshImg')" @mouseenter="Tips('删除文件','delete2')" @mouseleave="closeTips()">
+													<i class="layui-icon layui-icon-close"></i>
+												</button>
+											</div>
+										</div>
+										<div class="sh-img">
+											<span class="img-xs">750x300</span>
+											<img :src='imgUrl2' alt="" id="dshImg">
+										</div>
+	
+										<div class="layui-form-item">
+											<div class="layui-input-block">
+												<button class="layui-btn layui-btn-normal" lay-submit lay-filter="baseSetting">保存</button>
+											</div>
+										</div>
+									</form>
+								</div>
+								<!-- 佣金设置内容 -->
+								<div class="layui-tab-item">
+									<div class="set-title">佣金设置</div>
+								</div>
+								<!-- 自定义设置内容 -->
+								<div class="layui-tab-item">
+									<div class="set-title">自定义设置</div>
+									<div class="custom">.
+										<!-- 自定义左边内容 -->
+										<div class="custom-left">
+											<div class="mobile-box">
+												<div class="mobile-screen">
+													<div class="mobile-navbar">分销中心</div>
+													<div class="mobile-content">
+														<div class="content-top">
+															<div class="top-info">
+																<div class="info-left"></div>
+																<div class="info-right">
+																	<div>用户昵称</div>
+																	<div v-if="wordsList.parent_name">{{ wordsList.parent_name.name }}：用户昵称</div>
+																</div>
+															</div>
+															<div class="top-money">
+																<div class="money-left">
+																	<div v-if="wordsList.can_be_presented">{{ wordsList.can_be_presented.name }}</div>
+																	<div>0元</div>
+																</div>
+																<div class="money-right"><div v-if="wordsList.cash">{{ wordsList.cash.name }}</div></div>
+															</div>
+														</div>
+														<div class="content-middle">
+															<div class="middle-left">
+																<div style="color: rgb(34, 175, 25)" v-if="wordsList.already_presented">{{ wordsList.already_presented.name }}</div>
+																<div>0元</div>
+															</div>
+															<div class="middle-right">
+																<div style="color: rgb(255, 143, 18)" v-if="wordsList.order_money_un">{{ wordsList.order_money_un.name }}</div>
+																<div>0元</div>
+															</div>
+														</div>
+														<div class="content-bottom">
+															<div class="bottom-item" v-for="item in menusList">
+																<img :src="item.icon" alt="">
+																<div>{{ item.name }}</div>
+															</div>														
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- 自定义右边内容 -->
+										<div class="custom-right">
+											<div class="right-top">
+												<div class="right-text">栏目</div>
+												<div class="right-box">
+													<div class="box-item" v-for="item in menusList" @click="popupMenusEdit(item)">
+														<img :src="item.icon" alt="">
+														<div>{{ item.name }}</div>
+													</div>
+												</div>
+											</div>
+											<div class="right-middle">
+												<div class="right-text">文字</div>
+												<div class="menu-box">
+													<div class="menu-header" @click="popupWordsEdit()">编辑</div>
+													<div class="menu-list">
+														<div class="menu-item" v-for="item in wordsList">
+															<div class="item-left">{{ item.default }}</div>
+															<div class="item-midlle">=></div>
+															<div class="item-right">{{ item.name }}</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="right-bottom">
+												<div class="right-text"></div>
+												<button class="layui-btn layui-btn-normal" @click="customSubmit()">保存</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 模板id消息教程弹出层 -->
+	<div id="popupModel" hidden>
+		<div>1.进入微信小程序官方后台，找到模板库</div>
+		<img src="http://mch.zhiyinfo.com/statics/images/tplmsg/0.png" alt="">
+		<div>2.查找指定模板（{{ modelData.text }}），点击选用</div>
+		<img :src="modelData.img1" alt="">
+		<div>3.选择下图关键词，并按下图调好顺序；点击提交</div>
+		<img :src="modelData.img2" alt="">
+		<div>4.复制模板ID</div>
+		<img :src="modelData.img3" alt="">
+	</div>
+	<!-- 选择文件库弹出层 -->
+	<div id="fileLib" hidden="">
+		<div class="top">
+			<div class="layui-input-block layui-form" style="margin-top: 8px;">
+				<input type="checkbox" lay-filter="ckb" lay-skin="primary" title="全选">
+			</div>
+				<button class="layui-btn layui-btn-danger" @click="deleteLibImg()">删除</button>
+				<button class="layui-btn layui-btn-normal upload" lay-data="{id: 'menusList'}">上传图片</button>
+				<div class="top-select layui-form" id="select_tpl_view">
+		    </div>
+		</div>
+		<div class="middle">
+			<div class="left">
+				<div class="left-title" @click="addFolder()"><i class="icon-circle layui-icon layui-icon-add-circle"></i>添加分组</div>
+				<div v-for="(item,index) in groupList" :style="activeValue == index ? 'background: #fff' : ''" @click="clickFolder(index,item.id)">
+					<img src="static/img/folder.png" alt=""/>
+					<span v-if="isEditing && index == activeValue"><input class="editing-input" type="text" :value="item.name"></span>
+					<span v-else>{{ item.name }}</span>
+					<i @click.stop="editFolder(index)" v-show="index>1 && !(isEditing && index == activeValue)" class="icon-set layui-icon layui-icon-set"></i>
+					<div class="set-extend" v-if="index == editValue">
+						<span class="extend-edit" @click.stop="edit(item.name)">编辑</span>
+						<span class="extend-delete" @click.stop="deleteFolder(item)">删除</span>
+					</div>
+					<div class="set-extend" v-if="isEditing && index == activeValue">
+						<span class="extend-edit" @click.stop="confirmOrCancleEdit(index)">确认</span>
+						<span class="extend-delete" @click.stop="confirmOrCancleEdit(index,1)">取消</span>
+					</div>
+				</div>
+			</div>
+			<div class="right">
+				<div class="right-img" v-for="(item,idx) in fileList" @click="toggleSelected(idx)">
+					<img :src="item.file_url" alt=""/>
+					<div class="img-selected" v-if="item.selected == 1"><img src="static/img/selected.png" alt=""></div>
+				</div>
+			</div>
+		</div>
+		<div class="bottom">
+			<span v-if="!isLoadingMore">加载更多</span>
+			<span v-else><i class="layui-icon layui-icon-loading"></i></span>
+		</div>
+	</div>
+	<!-- 自定义文字编辑弹出层 -->
+	<div id="wordsEdit" hidden>
+		<form class="layui-form" action="" lay-filter="wordsEdit">
+			<div class="layui-form-item" v-for="(item,idx) in wordsList">
+				<label class="layui-form-label required">{{ item.default }}</label>
+				<div class="layui-input-inline">
+					<input type="text" :name="idx" autocomplete="off" :value="item.name" class="layui-input" lay-verify="required">
+				</div>											
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn layui-btn-normal" lay-submit lay-filter="wordsEdit">确定</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- 自定义栏目编辑弹出层 -->
+	<div id="menusEdit" hidden>
+		<form class="layui-form" action="" lay-filter="menusEdit">
+			<div class="layui-form-item">
+				<label class="layui-form-label required">名称</label>
+				<div class="layui-input-inline">
+					<input type="text" name="name" autocomplete="off" :value="menusItem.name" class="layui-input" lay-verify="required">
+				</div>											
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label required">图片</label>
+				<div class="dis-flex layui-input-inline">
+					<input type="text" name="url" lay-verify="" autocomplete="off" class="img-input layui-input" v-model="menusItem.icon"> 
+				</div>
+				<div class="layui-upload layui-btn-group">
+					<button id="upload3" type="button" class="upload layui-btn layui-btn-primary" @mouseenter="Tips('上传文件','upload3')" @mouseleave="closeTips()" lay-data="{id: 'menus'}">
+						<i class="layui-icon layui-icon-upload"></i>
+					</button>
+					<button id="lib3" type="button" class="lib layui-btn layui-btn-primary" @mouseenter="Tips('从文件库选择','lib3')" @mouseleave="closeTips()" @click="popupFileLib('menusItem.icon')">
+						<i class="layui-icon layui-icon-table"></i>
+					</button>
+					<button id="delete3" type="button" class="delete layui-btn layui-btn-primary" @click="deleteImg('menusIcon')" @mouseenter="Tips('删除文件','delete3')" @mouseleave="closeTips()">
+						<i class="layui-icon layui-icon-close"></i>
+					</button>
+				</div>
+			</div>
+			<div class="sh-img">
+				<span class="img-xs">60x57</span>
+				<img alt="" id="menusIcon" :src="menusItem.icon">
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn layui-btn-normal" lay-submit lay-filter="menusEdit">确定</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/html" id="select_tpl">
+	<select name="quiz1" lay-filter="select_lib">
+		<option value="">移动</option>
+		{{#  layui.each(d.list, function(index, item){ }}
+			<option value="{{item.id}}">{{item.name}}</option>
+		{{#  }); }}
+  	</select>		   
+</script>
+
+<script>
+	layui.use(['fenxiao'],function(e) {
+        var fenxiao = layui.fenxiao;
+        fenxiao.ac();
+             
+    });
+</script>

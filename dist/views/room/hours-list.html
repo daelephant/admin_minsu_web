@@ -1,0 +1,136 @@
+<script type="text/html" template>
+  <link rel="stylesheet" href="{{ layui.setter.base }}style/hours-list.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a lay-href="">主页</a>
+    <a><cite>房屋</cite></a>
+    <a><cite>房源管理</cite></a>
+  </div>
+  <div class="layui-buts">   
+  </div>
+</div>
+<div class="contain layui-form" hidden>
+  <!-- 页面标题 -->
+  <div class="title">
+    <div class="title-text"><h3><b>房屋管理</b></h3></div>
+    <div class="title-btn">
+      <button class="btn1 layui-btn layui-btn-normal "><a href="javascript:;"  @click="create_room()">添创新房屋</a></button>
+      <button class="btn2 layui-btn layui-btn-primary" @click="popup()">待发布房屋（{{ hoursData.uncommittedCount }}）</button>
+    </div>  
+  </div>
+  <!-- tab选项卡 -->
+  <div class="tab">
+      <div class="layui-tab layui-tab-brief" lay-filter="tab">
+        <ul class="layui-tab-title" style="border: none;">
+          <li class="layui-this" lay-id='0'>全部房屋 {{ hoursData.unitOnlineCount+hoursData.unitOfflineCount }}</li>
+          <li lay-id='1'>已上架 {{ hoursData.unitOnlineCount }}</li>
+          <li lay-id='2'>未上架 {{ hoursData.unitOfflineCount }}</li> 
+        </ul>
+      </div>  
+  </div>
+  <!-- 房屋数量不为0 -->
+  <div class="exist" v-if="currentUnitList.length!=0">
+    <div class="exist-title">
+      <div class="exist-title-text">房屋名称</div>
+      <div class="exist-select">
+        <div class="layui-form-item">
+          <select id="exist-select" name="select" lay-filter="select1">
+            <option value="all" selected>全部</option>
+            <option :value="idx" v-for="(item,idx) in statusSelectList">{{ item }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="exist-title-text2">操作</div>
+    </div>
+    <div class="items">
+      <div class="item" v-for="item in currentUnitList">
+        <div class="item-top">
+          <div class="top-left">
+            <div class="left-img"><img :src="item.pictureURL" alt=""></div>
+            <div class="left-info">
+              <div class="info-title">{{ item.introduction.minsu_name }}</div>
+              <div class="info-address">{{ item.unitAddress }}</div>
+              <div class="info-hoursCount">{{ item.bedroomCount }}室{{ item.livingroomCount }}厅{{ item.bathroomCount }}卫/整套</div>
+              <div class="info-time">最后提交时间：{{ item.lastUpdateTime }} 房源编号：{{ item.unitNumber}}</div>
+            </div>
+          </div>
+          <div class="top-middle">
+            <div class="middle-status">
+              <div v-if="item.isActive == 1">
+                <span class="layui-badge-dot layui-bg-green"></span>已上架（审核通过）
+              </div>
+              <div v-else-if="item.isActive == 0 && item.houseStatus == 1">
+                <span class="layui-badge-dot layui-bg-gray"></span>未上架（审核通过）
+              </div>
+              <div v-else>
+                <span class="layui-badge-dot layui-bg-red"></span>未上架 （审核失败）
+              </div>
+            </div>
+            <div class="middle-desc">{{ item.unitRejectReason }}</div>
+          </div>
+          <div class="top-right">
+            <div class="right-ckb" id="select_tpl_view2" @click="toCreateRoom(item.room_id)"></div>
+            <div class="right-shangjia" :class="item.houseStatus == 3 ? '' : 'right-delete'" @click="pushHouse(item.introduction.minsu_name,item.unitNumber,item.room_id)" v-if="item.isActive == 0">上架</div>
+            <div class="right-delete" @click="downHouse(item.name,item.unitNumber,item.room_id,item.houseStatus)" v-else>下架</div>
+            <div class="right-delete" @click="deleteHouse(item.name,item.unitNumber,item.room_id)">删除</div>
+          </div>
+        </div>
+        <div class="item-bottom">
+          <span class="bottom-left">共1套房屋</span><span class="bottom-right" @click="popupAddress(item.room_id)">维护房屋地址</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 房屋数量为0 -->
+  <div class="null" v-else>共0个房屋</div>
+  <div class="page-box" v-show="currentUnitList.length!=0">
+    <div class="box-recordNum">共{{ hoursData.totalCount }}条</div>
+    <div id="pages1" v-show="activeId == 1"></div>
+    <div id="pages2" v-show="activeId == 2"></div>
+    <div id="pages3" v-show="activeId == 3"></div>
+  </div>
+  <!-- 待发布房屋弹出层 -->
+  <div id="daifabu" hidden>
+    <div class="daifabu-item" v-for="item in daifabuList">
+      <div class="daifabu-left"><img :src="item.pictureURL?item.pictureURL:''" alt=""></div>
+      <div class="daifabu-middle">
+        <div class="middle-name">{{ item.introduction.minsu_name }}</div>
+        <div class="middle-stepNum" v-show="item.create_status<8">还差<span style="color:#f30;">{{ item.create_status }}</span>步</div>
+        <div class="middle-address" v-show="item.create_status>1">{{ item.unitAddress }}</div>
+        <div class="middle-hoursCount" v-show="item.create_status>2">{{ item.bedroomCount }}室{{ item.livingroomCount }}厅{{ item.bathroomCount }}卫/整套</div>
+        <div class="middle-time">最后提交时间：{{ item.lastUpdateTime }} 房源编号：{{ item.unitNumber }}</div>
+      </div>
+      <div class="daifabu-right">
+        <div class="right-btn">
+          <button class="layui-btn layui-btn-normal"><a href="javascript:;" lay-href="room/create_room">继续发布</a></button>
+        </div>
+        <div class="daifabu-delete" @click="deleteHouse(item.name,item.unitNumber)">删除</div>
+      </div>
+    </div>
+  </div>
+  <!-- 维护房屋地址弹出层 -->
+  <div id="address" hidden>
+    <div class="address-title"><h4><b>维护房屋地址</b></h4><span class="title-left">准确的地址信息可以让客人寻找更方便，也可以使保洁洗涤服务更准确</span></div>
+    <div class="address-header"><span class="header-num">房源编号（房源简称）</span><span class="header-add">街道门牌号/小区楼号/单元房号</span></div>
+    <div class="address-input">
+      <div class="input-num">
+        <input type="text" name="input" autocomplete="off" class="layui-input" :value="addressInfo.unitNumber">
+      </div>
+      <div class="input-add">
+        <input type="text" name="input" autocomplete="off" class="layui-input" id="unitAddress" :value="addressInfo.doorNumber">
+      </div>
+    </div>
+    <div class="address-foot">当前维护地址: {{ addressInfo.unitAddress }}</div>
+  </div>
+</div>
+    
+<script type="text/javascript">
+    layui.use(['hours_list'],function(e) {
+        var hours_list = layui.hours_list;
+        hours_list.ac();
+    }); 
+</script>
+
+

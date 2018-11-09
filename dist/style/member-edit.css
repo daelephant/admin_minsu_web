@@ -1,0 +1,247 @@
+.contain{
+	padding: 20px;
+	margin: 20px;
+	background: #fff;
+}
+.title{
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
+}
+.level-edit{
+	padding: 20px 0;
+}
+.level-text1{
+	color: #7b8c98;
+	font-size: .65rem;
+	margin: -12px 0 20px 130px;
+}
+.level-text2{
+	color: #7b8c98;
+	font-size: .65rem;
+	margin: 0 0 0 130px;	
+}
+.level-text3{
+	color: #7b8c98;
+	font-size: .65rem;
+	margin: 10px 0 10px 130px;
+}
+.level-text3 a{
+	color: #0275d8;
+}
+.red{
+	margin-left: 5px;
+	color: red;
+}
+.layui-form-label{
+	width: 100px;
+}
+.layui-input-block{
+	margin-left: 130px;
+}
+.member-img{
+	position: relative;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    border: 1px solid #e3e3e3;
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 5px 0 5px 130px;
+    display: inline-block;
+    text-align: center;
+}
+.member-img img{
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto auto;
+}
+.img-xs{
+	position: absolute;
+    top: 2px;
+    left: 4px;
+    font-size: .65rem;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75), 0 -1px 0 rgba(255, 255, 255, 0.75), 1px 0 0 rgba(255, 255, 255, 0.75), -1px 0 0 rgba(255, 255, 255, 0.75);
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1.25;
+}
+.promote{
+	display: flex;
+	border: 1px solid #e6e6e6;
+}
+.promote-span{
+	min-width: 132px;
+}
+.promote span{
+	line-height: 35px;
+    margin: 0 6px;
+}
+.pro-input{
+	width: 78%;
+	border-color: transparent #e6e6e6;
+}
+.none-input{
+	border-color: transparent #e6e6e6 transparent transparent;
+}
+label.required:before {
+    content: "*";
+    display: inline;
+    position: absolute;
+    left: -.75rem;
+    color: #ff4544;
+    font-weight: bolder;
+    top: 25%;
+    right: 6px;
+}
+#upload{
+    padding: 0 10px;
+    height: 38px;
+    border-color: transparent #e6e6e6 transparent transparent;
+}
+#lib{
+    padding: 0 10px;
+    height: 38px;
+    border-color: transparent #e6e6e6 transparent #e6e6e6;
+}
+#delete{
+    padding: 0 10px;
+    height: 38px;
+    border-color: transparent;
+}
+.img-input{
+	border-color: transparent;
+}
+#fileLib{
+	padding: 20px;
+}
+.top{
+	display: flex;
+	justify-content: flex-end;
+	border-bottom: 1px solid #e6e6e6;
+}
+.top .layui-form-select .layui-input{
+	height: 34px;
+}
+.top-select{
+	margin: 0 10px;
+}
+.middle{
+	display: flex;
+	height: 480px;
+}
+.left{
+	height: 100%;
+    overflow-y: auto;
+	margin: 10px 10px 0 0;
+    max-width: 153px;
+    width: 300px;
+    border: 1px solid #eee;
+    background-color: #f4f5f9;
+}
+.left-title{
+    text-align: center;
+    padding: 10px 0;
+    color: #0275d8;
+    background: #fff;
+    cursor: pointer;
+    border-bottom: 1px solid rgb(236, 236, 236);
+}
+.left div{
+	padding: 10px 0;
+	cursor: pointer;
+}
+.left div:hover{
+	background: #fff
+}
+.left img{
+	width: 16px;
+    height: 16px;
+    margin: 0 10px;
+}
+.icon-circle{
+	color:#0275d8;
+	margin-right: 5px
+}
+.icon-set{
+	float: right;
+	font-size: 14px;
+	color:#0275d8;
+	margin: 3px 10px 0 0;
+}
+.set-extend{
+	background: #fff;
+	margin: 10px 0 0 0
+}
+.extend-edit{
+	margin: 0 30px;
+	color: #0275d8;
+}
+.extend-delete{
+	color: #d9534f;
+}
+.editing-input{
+	width: 90px;
+	height: 25px;
+}
+.right{
+	margin-top: 10px;
+	width: 610px;
+    overflow-y: auto;
+}
+.right-img{
+	position: relative;
+	margin-right: 10px;
+	margin-bottom: 10px;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    border: 1px solid #e3e3e3;
+    border-radius: 2px;
+    overflow: hidden;
+    display: inline-block;
+    text-align: center;
+}
+.right-img:hover{
+	border-color: #0275d8;
+}
+.right-img img{
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto auto;
+}
+.img-selected{
+	position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .5);
+}
+.img-selected img{
+	width: 30px;
+}
+.bottom{
+	text-align: center;
+	border-bottom: 1px solid #e6e6e6;
+	color: #0275d8;
+}
+.layui-form-radio>i:hover, .layui-form-radioed>i {
+    color: #1E9FFF;
+}
+.tips{
+	color: #7b8c98;
+	font-size: .65rem;
+}
+.layui-form-item .layui-input-inline {
+    width: 35%;
+}
+.layui-btn-group{
+    border: 1px solid #e6e6e6;
+    margin-left: -10px;
+    border-left-width: 0;
+}
+.layui-btn-group .layui-btn-primary:first-child {
+    border-left: 1px solid #fff; 
+}
+.layui-form-select{
+    width: 90px;
+}

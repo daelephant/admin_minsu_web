@@ -1,0 +1,1 @@
+{"code":0,"data":[{"id":1,"level":"5","levelTitle":"尊贵会员","promoteCondition":"123","discount":"5","price":"100","status":"close"},{"id":2,"level":"2","levelTitle":"普通会员","promoteCondition":"50","discount":"8","price":"100","status":"open"}],"msg":"success","count":"2"}

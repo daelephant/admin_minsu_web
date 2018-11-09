@@ -1,0 +1,80 @@
+<script type="text/html" template>
+  <link rel="stylesheet" href="{{ layui.setter.base }}style/order-detail.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<div class="contain" hidden>
+	<!-- 订单号、时间 -->
+	<div class="title">
+		<span class="title-qudao">{{ orderDetail.orderSource }}</span>
+		<span class="title-orderNum">{{ orderDetail.orderNumber }}</span>
+		<span class="title-orderTime">下单时间：{{ orderDetail.create_time }}</span>
+	</div>
+	<!-- 预定信息 -->
+	<div class="bookInfo">
+		<div class="bookInfo-text"><h3><b>预定信息</b></h3><span class="orderStatus" :style="orderDetail.orderStatusLabel == '待支付'?'color:#f30':''">状态：{{ orderDetail.orderStatusLabel }}</span></div>
+		<div class="bookInfo-context">
+			<div class="left"><img class="houseImg" :src="orderDetail.pictureURL" alt=""></div>
+			<div class="middle">
+				<div>预定房屋：<span class="houseName"></span>{{ orderDetail.introduction.minsu_name }}（<span class="houseNum">{{ orderDetail.unitNumber }}</span>）</div>
+				<div>预订产品：<span class="product">{{ orderDetail.productName }}</span></div>
+				<div>房屋位置：<span class="houseAddress">{{ orderDetail.unitAddress }}</span></div>
+				<div>预定套数：<span class="houseCount">{{ orderDetail.bookingCount }}</span>套</div>
+				<div class="middle-paiqi"><a id="paiqi" href="javascript:;" lay-href="room/status"class="blue">查看排期</a></div>
+			</div>
+			<div class="right">
+				<div>预订人：<a id="a-phone" class="blue" :href="orderDetail.bookerInfoFileUrl">{{ orderDetail.phone }}</a><span class="blue"><img src="static/img/order/chat.png" alt="">聊天</span></div>
+				<div>入住人：<span class="guestName">{{ orderDetail.guestName }}</span><span id="phoneup" class="blue" @click="phoneUp()"><img src="static/img/order/phone.png" alt="">拨打</span></div>
+				<div>入住人数：<span class="personCount">{{ orderDetail.recommendedGuests }}</span>人</div>
+				<div>入离日期：<span class="checkInTime">{{ orderDetail.checkInDate }}</span>至<span class="checkOutTime">{{ orderDetail.checkOutDate }}</span>（共<span class="days">{{ orderDetail.miniday }}</span>晚）</div>
+			</div>
+		</div>
+	</div>
+	<!-- 支付信息 -->
+	<div class="payInfo">
+		<div class="payInfo-text"><h3><b>支付信息</b></h3></div>
+		<div class="payInfo-totalPay">总房费：￥<span class="totalPay-price">{{ orderDetail.totalUnitAmount }}</span>.00</div>
+		<div>每日房费：</div>
+		<div class="payInfo-price">
+			<table class="price-table">
+				<tbody>
+					<tr id="table-tr">
+						<th v-for="item in unitFees">
+							<div class="th-top">{{ item.rateDate }}({{ item.weekday }})</div>
+							<div class="th-bottom">￥{{ item.unitRate }}</div>
+						</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!-- 打印 -->
+	<div class="btn">
+		<button class="layui-btn layui-btn-normal" @click="print()"><img src="static/img/order/print.png" alt="">打印订单</button>
+	</div>
+	<!-- 拨叫房客电话弹出层 -->
+	<div id="extend" hidden>
+		<div>主叫电话</div>
+		<div class="extend-input">
+			<input id="extend-input" type="text" name="search-input" placeholder="请输入您的电话" value="13202506857" autocomplete="off" class="layui-input">
+		</div>
+		<div class="show-phone"></div>
+		<div class="extend-tele">
+			<div class="null-tele"><h4>XXXXXXXXXXX</h4></div>
+			<div class="real-tele" style="display: none;">
+				<h4 class="tele">17013213554</h4>
+				<div class="tele-text">该页面有效时间为5分钟</div>
+				<div class="timeout"></div>
+			</div>
+		</div>	
+		<div class="extend-ts">呼叫提示</div>
+		<div class="extend-text">1.需要填写您用于拨出电话的手机号码；</div>
+		<div class="extend-text">2.生成的170电话是临时分配的一次性号码，下次直接拨打无效；</div>
+		<div class="extend-text">3.只收取正常通话费用，无额外收费</div>
+		<button class="extend-btn layui-btn layui-btn-fluid" @click="createPhone()">生成房客电话</button>
+	</div>
+</div>
+<script>
+	layui.use(['order_detail'],function(e) {
+        var order_detail = layui.order_detail;
+        order_detail.ac()
+    });
+</script>

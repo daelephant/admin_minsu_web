@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=Q27zc57VZImbWQBz8RCEH4xzOwFGbohh"></script>
+	</head>
+
+	<body>
+		<div id="container" style="height: 400px;"></div>
+	</body>
+	<script type="text/javascript">
+
+			var map = new BMap.Map("container",{minZoom:8,maxZoom:20});  
+			var point = new BMap.Point(113.287, 23.1663 );
+			    map.centerAndZoom(new BMap.Point(113.287, 23.1663),15); 
+	            map.enableScrollWheelZoom(true);
+            var marker = new BMap.Marker(point);// 创建标注
+			function myFun(result) {
+				var cityName = result.name;
+				map.setCenter(cityName);
+			}
+			var myCity = new BMap.LocalCity();
+			    myCity.get(myFun);
+			    
+	            map.addOverlay(marker);// 将标注添加到地图中
+	            marker.enableDragging();
+
+		
+		function setpoint(){
+			
+			
+			
+			
+			
+		}
+	</script>
+
+</html>

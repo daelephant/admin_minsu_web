@@ -1,0 +1,411 @@
+<script type="text/html" template>
+  <link rel="stylesheet" href="{{ layui.setter.base }}style/status.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">主页</a>
+		<a><cite>房屋</cite></a>
+		<a><cite>房态管理</cite></a>
+	</div>
+</div>
+<div class="contain layui-form" hidden>
+	<div class="header">
+		<div class="header-text"><h3><b>房态管理</b></h3></div>
+		<div class="header-btn">
+			<button  @click='popupSelectHouse()' class="btn1 layui-btn layui-btn-normal layer" >请选择房屋</button>
+			<button  @click='popupOpen_CloseHouse()' class="btn2 layui-btn layui-btn-primary layer" >调整选中房屋房态</button>
+		</div>
+	</div>
+	<div class="middle">
+		<div class="middle-left">
+			<span class="left-span pointer" @click="prevWeek()">
+				<img src="static/img/arrow_l.png"></img>前一周
+			</span>
+			<span class="pointer" @click="nextWeek()">
+				后一周<img src="static/img/arrow_r.png"></img>
+			</span>
+		</div>
+		<div class="middle-right">
+			<div class="right-item" v-for="item in imgList">
+				<img :src="item.url"></img>{{ item.text }}
+			</div>
+		</div>
+	</div>
+	<div class="dateTable">
+		<table class="dateTable-table">
+			<tr>
+				<!-- 年份与月份显示 -->
+				<th class="dis-flex">
+					<div class="dateTable-th1-left"><input type="checkbox" name="ckb" lay-skin="primary" lay-filter='ckb1' value="index_all"></div>
+					<div class="dateTable-th1-right"><span id="date0" class="pointer"></span><img src="static/img/rl.png"></img></div>
+				</th>
+				<!-- 日期列表显示 -->
+				<th class="dateTable-th2">
+					<table class="dateTable-th2-table">
+						<tr class="dateTable-th2-table-tr">
+							<th class="dateTable-th2-table-tr-th" v-for="(item,index) in dateList">
+								<div class="th-side" style="left: 0" @click="prevDay()" v-show="index == 0"><img src="static/img/arrow_l_w.png" alt=""></div>
+								<div class='th-top'>{{ item.date }}</div>
+								<div class="th-bottom" :style="item.day == '六' || item.day == '日' ? 'color: #f30' : ''">{{ item.day }}</div>
+								<div class="th-side" style="right: 0" @click="nextDay()" v-show="index == 8"><img src="static/img/arrow_r_w.png" alt=""></div>
+							</th>
+						</tr>
+					</table>
+				</th>
+			</tr>
+		</table>
+	</div>
+	<!-- 房屋信息列表显示 -->
+	<div v-if="houseList.length!=0">
+		<table class="houseInfo" v-for="(item,idx) in houseList">
+			<!-- 房屋信息显示 -->
+			<tr>
+				<!-- 房屋信息左侧 -->
+				<td class="houseInfo-left">
+					<div class="left-ckb">
+						<input class="ckb1" :value="idx" type="checkbox" name="ckb" lay-skin="primary" lay-filter='ckb1'>
+					</div>
+					<div class="left-unitInfo">
+						<span>{{ item.unit.unitName }}<br>({{ item.unit.unitNumber }})</span>
+						<span class="unitInfo-isActive">{{ item.unit.isActive?'已上架':'未上架' }}</span><br>
+						<span class="unitInfo-zk" @click="zhankai(idx)">
+							{{ item.isShow?'收起':'展开'}}
+							<img :class="item.isShow?'img2':'img1'" :src="item.isShow?'static/img/angle_b.png':'static/img/angle_t.png'"/>
+						</span>
+					</div>
+				</td>
+				<!-- 房屋信息右侧（房屋开关状态显示） -->
+				<td class="houseInfo-right">
+					<table class="right-status">
+						<tr class="status-items">
+							<th class="status-item" v-for="item2 in item.inventoryList">
+								<div class="item-close layui-btn-disabled" v-if="new Date(today).getTime() > new Date(item2.date).getTime()"></div>
+								<div v-else-if="item2.status == 0"></div>
+								<div v-else-if="item2.status == 1"><img src="static/img/dzf.png" alt=""></div>								
+								<div v-else-if="item2.status == 3"><img src="static/img/yrz.png" alt=""></div>
+								<div v-else-if="item2.status == 4"><img src="static/img/yld.png" alt=""></div>
+								<div class="item-close" @click="open_closeHouse(item2.date,item2.status,item.unit.unitName,item.unit.unitNumber,item.unit.room_id)" v-else-if="item2.status == 5">
+									<img src="static/img/ft.png" />
+								</div>
+								<div class="item-open" @click="open_closeHouse(item2.date,item2.status,item.unit.unitName,item.unit.unitNumber,item.unit.room_id)" v-else-if="item2.status == 6">1</div>
+								<div v-else-if="item2.status == 7"><img src="static/img/bz.png" alt=""></div>
+							</th>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<!-- 房间信息展开显示 -->
+			<tr v-if="item.isShow">
+				<td class="rooms-left">
+					<div class="left-ckb"></div>
+					<div class="left-instanceName">D101</div>
+				</td>
+				<td>
+					<table class="room-table"> 
+						<tr class="table-right">
+							<th class="table-right-item" v-for="(item4,indx) in item.inventoryList">
+								<div  @click="roomToggle(item4.date,item.unit.room_id,item4.status,idx,indx)" :style="idx == roomToggleList.id && roomToggleList.dateList.indexOf(indx) != -1?'background:#8b9bfb;':''">
+									<img v-if="item4.status == 5" src="static/img/ft.png" />
+								</div>
+							</th>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="house_select" v-else>请选择房屋......</div>
+
+	<!-- layui弹出层 -->
+	<!-- 选择房屋弹出层 -->
+	<div id="tab" class="layui-tab layui-tab-brief" lay-filter="tabber" hidden>
+		<ul class="layui-tab-title">
+		    <li class="layui-this" lay-id="1">上架房屋</li>
+		    <li lay-id='0'>下架房屋</li>
+		</ul>
+		<div class="layui-tab-content">
+			<!-- 上架房屋信息 -->
+		    <div class="layui-tab-item layui-show">
+		    	<div  class="tab-sj">
+		      		<div class="tab-sj-head">
+		      			<input type="checkbox" name="ckb" lay-skin="primary" lay-filter='activeUnit' title="全部" value="all">
+		      		</div>
+		      		<div class="tab-sj-context">
+		      			<ul id="tab-house-ul" class="tab-house">
+		      				<li v-for="(list,index1 in unitList">
+			      				<div class="house-aquire">
+			      					<input class="activeUnit" type="checkbox" lay-skin="primary" lay-filter="activeUnit" :value="index1">
+			      				</div>
+			      				<div>
+			      					<div>房屋编号：{{ list.unitNumber }}</div>
+			      					<div class="house_select-minsu_name">{{ list.introduction.minsu_name }}</div>
+			      				</div>
+		      				</li>
+		      			</ul>
+		      		</div>
+		      	</div>
+		    </div>
+			<!-- 下架房屋信息 -->
+		  	<div class="layui-tab-item">
+		  		<div class="tab-sj">
+		      		<div class="tab-sj-head">
+		      			<input type="checkbox" lay-skin="primary" title="全部" lay-filter="unactiveUnit" value="all">
+		      		</div>
+		      		<div class="tab-sj-context">
+		      			<ul id="tab-house-ul-una" class="tab-house">
+		      				<li v-for="(list,index2) in unitList">
+			      				<div class="house-aquire">
+			      					<input class="unactiveUnit" type="checkbox" lay-skin="primary" lay-filter="unactiveUnit" :value="index2">
+			      				</div>
+			      				<div>
+			      					<div>房屋编号：{{ list.unitNumber }}</div>
+			      					<div class="house_select-minsu_name">{{ list.introduction.minsu_name }}</div>
+			      				</div>
+		      				</li>
+		      			</ul>
+		      		</div>
+		      	</div>	      	
+		    </div>
+		</div>
+		<!-- <div class="tab-foot">一次性选择房屋过多，可能会影响页面响应效率</div> -->
+	</div>  
+	<!-- 开关房弹出层 -->
+	<div id="switch_house" hidden>
+		<div>所选房屋：{{ roomstatusList.unitName }}({{ roomstatusList.unitNumber }})</div>
+		<div class="switch_house-date">
+			<div class="switch_house-text"><span style="color: #f30">*</span>适用日期</div>
+			<div class="dis-flex">
+				<div class="switch_house-date1"><span id="date1" class="date1-span">{{ roomstatusList.bg_date }}</span><img src="static/img/rl.png"></img></div>
+				<div class="switch_house-date-middle">至</div>
+				<div class="switch_house-date2"><span id="date2" class="date1-span">{{ roomstatusList.end_date }}</span><img src="static/img/rl.png"></img></div>
+			</div>
+		</div>
+		<div>
+		<div class="switch_house-status"><span style="color: #f30">*</span>房态</div>
+			<div>
+		      <select id="switch_house-select" class="switch_house-select" name="state" lay-verify="required">
+		        <option value="6" >开</option>
+		        <option value="5" >关</option>
+		      </select>
+		    </div>
+		</div>
+	</div>  
+	<!-- 批量选择房屋房态弹出层 -->
+	<div id="switch_houses" hidden>
+		<div class="switch_house-date">
+			<div class="switch_house-text"><span style="color: #f30">*</span>适用日期</div>
+			<div class="dis-flex">
+				<div class="switch_house-date1"><span id="date3" class="date1-span"></span><img src="static/img/rl.png"></img></div>
+				<div class="switch_house-date-middle">至</div>
+				<div class="switch_house-date2"><span id="date4" class="date1-span"></span><img src="static/img/rl.png"></img></div>
+			</div>
+		</div>
+		<div>
+		<div class="switch_house-status"><span style="color: #f30">*</span>房态</div>
+			<div>
+		      <select id="switch_houses-select" class="switch_house-select"  name="state" lay-verify="required">
+		        <option value="6" id="select3">开</option>
+		        <option value="5" id="select4">关</option>
+		      </select>
+		    </div>
+		</div>
+		<div style="margin:10px 0">调整房屋：</div>
+		<div id="select_houses">
+			<div style="color:#999;font-size:12px;" v-for="i in selected_houseList">{{ i.unitName }}({{ i.unitNumber }})</div>
+		</div>
+	</div>
+	<!-- 办理补录弹出层 -->
+	<div id="addOrder" hidden>
+		<div class="addOrder-title">办理入住</div>
+		<div class="layui-form">
+			<div class="addOrder-item">
+				<div class="form-wdt">
+					<div class="require">预订人</div>
+					<input type="text" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+				</div>
+				<div class="form-wdt">
+					<div>手机号</div>
+					<input type="text" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="addOrder-item">
+				<div class="form-wdt">
+					<div class="require">订单类型</div>
+					<select id="" class=""  name="">
+				        <option value="0" >到店现付</option>
+				        <option value="1" >部分预付</option>
+				        <option value="2" >全额预付</option>
+			        </select>
+				</div>
+				<div class="form-wdt">
+					<div class="require">订单渠道</div>
+					<select id="" class=""  name="">
+				        <option value="0" >上门客</option>
+				        <option value="1" >熟客</option>
+				        <option value="2" >携程</option>
+			        </select>
+				</div>
+			</div>
+			<div class="house-form-title">此单共 <span class="color-f30"> 1 </span> 个房单, <span class="color-f30"> 1 </span> 个间夜</div>
+			<div class="house-form">
+				<div class="form1-header">表单1<span @click="popupRoomList">编辑</span></div>
+				<div>房屋：舒适汉溪长隆附近 D101</div>
+				<div>时间：2018-11-05 14:00 至 2018-11-06 12:00</div>
+				<div>金额：¥ 350(基础价)</div>
+				<div class="form-ruzhuren">(入住人同预订人)</div>
+			</div>
+			<div class="house-form-fangdan">
+				<div class="fangdan-title" @click="popupRoomList"><span class="plus-span">+</span>添加房单</div>
+				<div class="fangdan-items">
+					<div class="fangdan-item">
+						<div>房费总价</div>
+						<div class="color-f30">￥350</div>
+					</div>
+					<div class="fangdan-item item-border">
+						<div>实收总额</div>
+						<div class="color-f30">￥0</div>
+					</div>
+					<div class="fangdan-item">
+						<div>还需收款</div>
+						<div class="color-f30">￥350</div>
+					</div>
+				</div>
+			</div>
+			<div class="house-form-account">
+				<div class="fangdan-title" @click="popupAccount"><span class="plus-span">+</span>添加账目</div>
+				<div class="fangdan-title2">备注</div>
+				<div>
+					<input type="text" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 房单弹出层 -->
+	<div id="roomList" hidden>
+		<div class="addOrder-title">房单</div>
+		<div class="roomList-room">
+			<div class="title-mar">房屋</div>
+			<div class="roomList-room-select">
+				<select id="" class=""  name="">
+			        <option value="0" >舒适汉溪长隆附近</option>
+		        </select>
+		        <select id="" class=""  name="">
+			        <option value="0" >D101</option>
+		        </select>
+			</div>
+		</div>
+		<div class="roomList-date">
+			<div class="require title-mar">适用日期</div>
+			<div>
+				<input type="text" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="roomList-cost">
+			<div class="require title-mar">房费</div>
+			<div>
+				<select id="" class=""  name="">
+			        <option value="0" >￥350基础价</option>
+		        </select>
+			</div>
+		</div>
+		<div class="roomList-items" v-if="peopleList.length!=0" v-for="(it,idx) in peopleList">
+			<div class="items-title">入住人{{idx+1}}<span @click="deletePeople(idx)">删除</span></div>
+			<div class="addOrder-item">
+				<div class="form-wdt">
+					<div class="require">入住人</div>
+					<div class="layui-input-inline">
+						<input type="text" autocomplete="off" class="layui-input" :value="it.name">
+					</div>
+				</div>
+				<div class="form-wdt">
+					<div>手机号</div>
+					<div class="layui-input-inline">
+						<input type="text"  autocomplete="off" class="layui-input"  :value="it.phone">
+					</div>
+				</div>
+			</div>
+			<div class="roomList-room">
+				<div class="require title-mar" >证件类型</div>
+				<div class="roomList-room-select">
+					<select id="" class=""  name="">
+				        <option value="0" >身份证</option>
+			        </select>
+			        <input type="text" autocomplete="off" class="layui-input" :value="it.idCard">
+				</div>
+			</div>
+		</div>
+		<div class="roomList-people"><div class="fangdan-title" @click="addPeople()"><span class="plus-span">+</span>添加入住人</div></div>
+	</div>
+	<!-- 账目弹出层 -->
+	<div id="account" hidden>
+		<div class="addOrder-title">账目</div>
+		<div class="addOrder-item">
+			<div class="form-wdt">
+				<div class="require">类型</div>
+				<select id="" class=""  name="">
+			        <option value="0" >收款</option>
+			        <option value="1" >退款</option>
+		        </select>
+			</div>
+			<div class="form-wdt">
+				<div class="require">金额</div>
+				<div class="account-cost">
+					<input type="text" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+					<div class="cost-unit">元</div>
+				</div>
+			</div>
+		</div>
+		<div class="addOrder-item">
+			<div class="form-wdt">
+				<div class="require">收支方式</div>
+				<select id="" class=""  name="">
+			        <option value="0" >现金</option>
+			        <option value="1" >渠道代收</option>
+			        <option value="2" >渠道退回</option>
+			        <option value="3" >支付宝</option>
+			        <option value="4" >微信</option>
+			        <option value="5" >其他</option>
+		        </select>
+			</div>
+			<div class="form-wdt">
+				<div class="require">项目名称</div>
+				<select id="" class=""  name="">
+			        <option value="0" >渠道代收</option>
+			        <option value="1" >押金</option>
+			        <option value="2" >房费</option>
+			        <option value="3" >电费</option>
+			        <option value="4" >烟酒副食</option>
+			        <option value="5" >其他</option>
+		        </select>
+			</div>
+		</div>
+		<div class="account-title">
+			<div class="require title-mar">时间</div>
+			<input type="text" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+		</div>
+		<div class="account-title">
+			<div class="title-mar">备注</div>
+			<input type="text" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<!-- 选择房间进行开关房 -->
+	<div id="switch_room" v-show="bottom_isShow">
+		<div class="room-left">
+			<div>已选<span id="left-roomNum" class="room-span"><b>1</b></span>房间<span id="left-days" class="room-span"><b>{{ roomToggleList.dateList.length }}</b></span>晚</div>
+			<div class="cancle dis-flex" @click="cancle()"><img src="static/img/cancle.png" alt="">取消所有选中</div>
+		</div>
+		<div class="room-right">
+			<div class="close" @click="closeCancleroom(5)"><img src="static/img/close.png" alt="">关房</div>
+			<div class="close" @click="closeCancleroom(6)"><img src="static/img/close.png" alt="">取消关房</div>
+			<div class="close"><button class="layui-btn layui-btn-normal" @click="addOrder()">办理补录</button></div>
+		</div>
+	</div>
+</div>
+<script>
+	layui.use(['status'],function(e) {
+        var status = layui.status;
+      	status.ac();
+
+    });
+</script>
+

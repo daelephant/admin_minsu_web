@@ -1,0 +1,1 @@
+{"code":0,"msg":"success","count":2,"data":[{"goodsInfo":"这是商品信息1","money":500.00,"status":"已付款","fxSituation":"这是分销情况1"},{"goodsInfo":"这是商品信息2","money":700.00,"status":"待付款","fxSituation":"这是分销情况2"}]}

@@ -1,0 +1,496 @@
+
+body{
+	font-size: 13px;
+}
+.contain{
+	margin: 20px;
+	background: #fff;
+}
+.header{
+	padding: 10px 10px;
+	border-bottom: 1px solid #ccc;
+	display: flex;
+}
+.header-text{
+	line-height: 40px;
+	width: 50%;
+}
+.header-btn{
+	width: 50%;
+}
+.btn1{
+	font-size: 12px;
+	float: right;
+	margin-left: 20px;
+	border-radius: 10px;
+	height: 30px;
+	line-height: 30px;
+	margin-top: 5px;
+}
+.btn2{
+	font-size: 12px;
+	float: right;
+	border-radius: 10px;
+	background-color: rgb(242,242,242);
+	height: 30px;
+	line-height: 30px;
+	margin-top: 5px;
+}
+.middle{
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20px;
+	padding: 0 10px;
+}
+.middle-right{
+	display: flex;
+	justify-content: flex-end;
+}
+.right-item{
+	margin-right: 10px;
+}
+.middle img{
+	width: 16px;
+	height: 16px;
+	margin: -3px 4px 0 0;
+}
+.left-span{
+	margin-right: 20px;
+}
+.dateTable{
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	margin-top: 20px;
+}
+.dateTable-table{
+	width: 100%;
+}
+.dateTable-th1-left{
+	width: 40%;
+	height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dateTable-th1-right{
+	display: flex;
+    justify-content: center;
+    height: 80px;
+    align-items: center;
+}
+.dateTable-th1-right img{
+	width: 16px;
+	height: 16px;
+	margin: -3px 0 0 10px;
+}
+.dateTable-th2{
+	width: 80%
+}
+.dateTable-th2-table{
+	width: 100%;
+}
+.dateTable-th2-table-tr{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	background-color: #eeeeee;
+}
+.dateTable-th2-table-tr-th{
+	display: flex;
+	flex-direction: column;
+	width: 15%;
+	position: relative;
+}
+.th-side{
+	position: absolute;
+	background-color: #e5e5e6;
+	display: flex;
+	align-items: center;;
+	justify-content: center;
+	height: 80px;
+}
+.th-side:hover{
+	background-color: #94a5ff;
+}
+.th-side img{
+	width: 16px;
+	height: 16px;
+}
+.th-top{
+	height: 45px;
+	line-height: 45px;
+}
+.th-bottom{
+	height: 35px;
+	border-top: 1px solid #dddddd;
+	line-height: 35px
+}
+.houseInfo{
+	width: 100%;
+	height: 80px;
+	border: 1px solid;
+	border-color: #ccc transparent #ccc transparent;
+}
+.houseInfo-left{
+	display: flex;
+}
+.left-ckb{
+	width: 25%;
+	height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid rgb(222,222,222)
+}
+.left-unitInfo{
+	padding: 10px 20px;
+}
+.unitInfo-isActive{
+	color:rgb(255, 137, 129);
+}
+.unitInfo-zk{
+	cursor: pointer;
+}
+.unitInfo-zk .img2{
+	width: 14px;
+	height: 14px;
+	margin-bottom: 12px;
+}
+.unitInfo-zk .img1{
+	width: 14px;
+	height: 14px;
+	margin-top: -5px;
+}
+.unitInfo-tb{
+	width: 15px;
+	height: 15px;
+	margin-left: 150px;
+}
+.houseInfo-right{
+	width: 80%;
+}
+.right-status{
+	width: 100%;
+}
+.status-items{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	background-color: #eeeeee;
+}
+.status-items div{
+	height: 80px;
+	text-align: center;
+	line-height: 80px;
+	border: 1px solid #eeeeee;
+}
+.status-item{
+	display: flex;
+	flex-direction: column;
+	width: 15%;
+	border: 1px solid #e6e6e6;
+}
+.status-item img{
+	width: 16px;
+	height: 16px;
+}
+.item-close{
+	background: #eeeeee;
+	cursor: pointer;
+}
+.item-open{
+	background: #fff;
+	cursor: pointer;
+}
+.room-table{
+	width: 100%;
+}
+.rooms-left{
+	border-top:1px solid rgb(222,222,222);
+	display: flex;
+}
+.table-right{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+.table-right div{
+	height: 80px;
+	text-align: center;
+	line-height: 80px;
+	border: 1px solid #eeeeee;
+}
+.table-right-item{
+	display: flex;
+	flex-direction: column;
+	width: 15%;
+	cursor: pointer;
+}
+.table-right-item img{
+	width: 16px;
+	height: 16px;
+}
+.house_select{
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	color: #ff6600
+}
+.dis-flex{
+	display: flex;
+}
+.tab-sj-head{
+	display: flex;
+	padding: 10px;
+	border-bottom: 1px solid rgb(242,242,242);
+}
+.tab-house{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.tab-house li{
+	display: flex;
+	width: 23%;
+	padding: 20px;
+	height: 35px;
+	margin: 20px 0 0 20px;
+	border: 1px solid #ccc;
+}
+.house-aquire{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#switch_house{
+	padding: 20px;
+}
+#switch_houses{
+	padding: 20px;
+}
+.switch_house-date{
+	margin: 10px 0;
+}
+.switch_house-date1{
+	width: 140px;
+    height: 25px;
+    border: 1px solid #eeeeee;
+}
+.switch_house-date img{
+	width: 16px;
+	height: 16px;
+	float: right;
+	margin-top: 4px;
+}
+.switch_house-date2{
+	width: 140px;
+    height: 25px;
+    border: 1px solid #eeeeee;
+}
+.switch_house-status{
+	margin-bottom: 10px;
+}
+.switch_house-date-middle{
+	margin: 5px 20px;
+}
+#switch_room{
+	height: 68px;
+    width: 75%;
+    position: fixed;
+    z-index: 1000;
+    bottom: 0;
+    padding: 0 20px;
+    line-height: 68px;
+    margin-top: -1px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+.room-left{
+	float: left;
+}
+.room-span{
+	padding: 0 5px;
+    font-size: 16px;
+    line-height: 16px;
+    color: #f30;
+}
+.close{
+	cursor: pointer;
+    position: relative;
+    margin-left: 40px;
+    display: flex;
+}
+.pointer{
+	cursor: pointer;
+}
+#switch_room img{
+	width: 15px;
+	height: 15px;
+	margin-top: -4px;
+}
+.room-right{
+	float: right;
+}
+.cancle{
+	margin-left: 100px;
+    color: #6e80e3;
+    cursor: pointer;
+    position: relative;
+}
+#switch_room div {
+    display: inline-block;
+}
+.left-instanceName{
+	padding: 10px 20px;
+	display: flex;
+	align-items: center;
+}
+.date1-span{
+	height: 40px;
+	line-height: 27px;
+	margin-left: 10px;
+	cursor: pointer;
+	margin-right: 40px;
+}
+.date1-span img{
+	float: right;
+	margin-top: 3px;
+}
+.switch_house-text{
+	margin: 10px 0;
+}
+.layui-btn-disabled:hover{
+	background: #eeeeee;
+}
+.house_select-minsu_name{
+	height: 20px;
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.addOrder-title{
+	padding: 20px;
+    background: #e6e6e6;
+    font-weight: bold
+}
+.addOrder-item{
+	display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    line-height: 30px;
+    margin-top: 15px;
+}
+.house-form-title{
+	padding: 10px 20px;
+}
+.house-form{
+	padding: 0 20px;
+    border: 1px solid #e6e6e6;
+    margin: 0 20px;
+    border-top: 3px solid blue;
+}
+.house-form:hover{
+	box-shadow: 0 3px 4px 1px #e6e6e6;
+}
+.form1-header{	
+	padding: 10px 0;
+    border-bottom: 1px solid #e6e6e6;
+    margin-bottom: 15px;
+}
+.form1-header span{
+	float: right;
+    color: blue;
+    cursor: pointer;
+}
+.form-ruzhuren{
+	margin-bottom: 20px;
+    color: #ccc;
+}
+.house-form-fangdan{
+	padding: 20px;
+
+}
+.fangdan-title{
+	cursor: pointer;
+	color: blue
+}
+.fangdan-title span{
+	font-size: 18px;
+    margin-right: 5px;
+}
+.fangdan-items{
+	display: flex;
+	justify-content: space-around;
+	margin-top: 10px;
+    padding: 20px 0;
+    border: 1px solid #e6e6e6;
+}
+.fangdan-item{
+	width: 33%;
+    text-align: center;
+}	
+.item-border{
+	border: 1px solid #e6e6e6;
+	border-color: transparent #e6e6e6 transparent #e6e6e6;
+}
+.house-form-account{
+	padding: 20px;
+}
+.fangdan-title2{
+	margin: 10px 0;
+}
+.roomList-room{
+	padding: 20px;
+}
+.roomList-room-select{
+	display: flex;
+}
+.roomList-date{
+    padding: 10px 20px;
+}
+.roomList-cost{
+    padding: 10px 20px;
+}
+.roomList-people{
+	padding: 10px 20px;
+}
+.items-title{
+	padding: 0 20px;
+    font-size: 17px;
+}
+.items-title span{
+	float: right;
+    color: blue;
+    cursor: pointer;
+    font-size: 14px;
+}
+.account-title{
+	padding: 20px;
+}
+.require::after{
+	position: absolute;
+	content: '*';
+	margin-top: 2px;
+	margin-left: 5px;
+	color: #f30;
+}
+.color-f30{
+	color: #f30;
+}
+.title-mar{
+	margin-bottom: 10px;
+}
+.form-wdt{
+	width: 48%;
+}
+.roomList-room-select{
+	display: flex;
+	justify-content: space-between;
+}
+.account-cost{
+	display: flex;
+}
+.cost-unit{
+	margin: 5px;
+}

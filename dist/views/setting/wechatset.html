@@ -1,0 +1,254 @@
+<script type="text/html" template>
+  <link rel="stylesheet" href="{{ layui.setter.base }}style/wechatset.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">主页</a>
+		<a><cite>设置</cite></a>
+		<a href="javascript:;" lay-href="home/citylist"><cite>系统配置</cite></a>
+	</div>
+</div>
+
+<div class="layui-fluid contain">
+	<div class="layui-card">
+		<div class="layui-tab layui-tab-brief" lay-filter="SettingTabBrief">
+			<ul class="layui-tab-title">
+				<li class="layui-this">基本信息</li>
+				<li>小程序配置</li>
+				<!--<li>短信配置</li>
+				<li>云存储空间</li>-->
+			</ul>
+			<div class="layui-tab-content">
+				<div class="layui-tab-item layui-show">
+					<form class="layui-form layui-row" action="" lay-filter="formOne">
+						<div class="layui-form-item">
+							<label class="layui-form-label"><span>*</span>客服电话</label>
+							<div class="layui-col-xs6">
+								<input type="text" name="service_tel" lay-verify="service_tel" autocomplete="off" placeholder="请输入客服电话" class="layui-input">
+								<div class="layui-form-mid layui-word-aux"></div>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">投诉电话</label>
+							<div class="layui-col-xs6">
+								<input type="text" name="complaint_tel"  placeholder="请输入投诉电话" class="layui-input">
+								<div class="layui-form-mid layui-word-aux"></div>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">logo上传</label>
+							<div class="dis-flex layui-input-inline">
+								<input type="text" name="logo" autocomplete="off" class="img-input layui-input" v-model="imgUrl">				
+							</div>
+							<div class="layui-upload layui-btn-group">
+								<button id="upload1" type="button" class="upload layui-btn layui-btn-primary" @mouseenter="Tips('上传文件','upload1')" @mouseleave="closeTips()" lay-data="{id: 'imgUrl'}">
+									<i class="layui-icon layui-icon-upload"></i>
+								</button>
+								<button id="lib1" type="button" class="lib layui-btn layui-btn-primary" @mouseenter="Tips('从文件库选择','lib1')" @mouseleave="closeTips()" @click="popupFileLib('imgUrl')">
+									<i class="layui-icon layui-icon-table"></i>
+								</button>
+								<button id="delete1" type="button" class="delete layui-btn layui-btn-primary" @click="deleteImg('shImg')" @mouseenter="Tips('删除文件','delete1')" @mouseleave="closeTips()">
+									<i class="layui-icon layui-icon-close"></i>
+								</button>
+							</div> 
+						</div>
+						<div class="sh-img">
+							<span class="img-xs">750x300</span>
+							<img :src="imgUrl" alt="" id="shImg">
+						</div>
+
+						<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>基本介绍</label>
+								<div class="layui-col-xs6">
+									<textarea name="about" lay-verify="about" style="height: 150px;" autocomplete="off" class="layui-textarea"> </textarea>
+									<div class="layui-form-mid layui-word-aux">小程序基本介绍，可以让用户更好地了解小程序的服务内容</div>
+								</div>
+						</div>
+                        
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="submit-1">保存</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="layui-tab-item">
+					<div class="layui-card-body">
+						<form class="layui-form layui-row" action="" lay-filter="formTwo">
+							<div class="layui-form-item">
+								<label class="layui-form-label">名称</label>
+								<div class="layui-col-xs6">
+									<input type="text" name="app_name" lay-verify="app_name" autocomplete="off" placeholder="小程序名称" class="layui-input">
+									<div class="layui-form-mid layui-word-aux"></div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>APPID</label>
+								<div class="layui-col-xs6">
+									<input type="text" name="mini_appid" lay-verify="mini_appid" autocomplete="off" placeholder="小程序 APPID" class="layui-input">
+									<div class="layui-form-mid layui-word-aux"></div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label"><span>*</span>APPSECREPT</label>
+								<div class="layui-col-xs6">
+									<input type="password" name="mini_appsecrept" lay-verify="mini_appsecrept" autocomplete="off" placeholder="小程序 APPSECREPT" class="layui-input">
+									<div class="layui-form-mid layui-word-aux"></div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">商户号</label>
+								<div class="layui-col-xs6">
+									<input type="text" name="mini_mid"  placeholder="微信商户号" class="layui-input">
+									<div class="layui-form-mid layui-word-aux"></div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">商户密钥</label>
+								<div class="layui-col-xs6">
+									<input type="password" name="mini_apicode"  placeholder="微信商户API支付密钥  64位字符" class="layui-input">
+									<div class="layui-form-mid layui-word-aux"></div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">证书PEM</label>
+								<div class="layui-col-xs6">
+									<textarea name="apiclient_cert" style="height: 150px;"  class="layui-textarea">  </textarea>
+									<div class="layui-form-mid layui-word-aux">微信企业支付证书，主要用户发红包,付款到用户零钱使用，提交后系统将加密</div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">证书秘钥KEY</label>
+								<div class="layui-col-xs6">
+									<textarea name="apiclient_cert_key"  style="height: 150px;" class="layui-textarea"> </textarea>
+									<div class="layui-form-mid layui-word-aux">微信企业支付证书，主要用户发红包,付款到用户零钱使用，提交后系统将加密</div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<div class="layui-input-block">
+									<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="submit-1">保存</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="layui-tab-item">
+					<form class="layui-form layui-row" action="">
+						<div class="layui-form-item">
+							<label class="layui-form-label">短信剩余</label>
+							<div class="layui-col-xs6">
+								<div class="layui-form-mid layui-word-aux">0条</div>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">短信购买</label>
+							<div class="layui-col-xs6">
+								<select name="label">
+									<option value="5000">5000条--0.06/条</option>
+									<option value="20000">20000条--0.055/条</option>
+									<option value="50000">50000条--0.05/条</option>
+								</select>
+								<div class="layui-form-mid layui-word-aux">短信运营商为阿里云短信</div>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="demo1">立即购买</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="layui-tab-item">
+					<form class="layui-form layui-row" action="">
+						<div class="layui-form-item">
+							<label class="layui-form-label">云存储空间</label>
+							<div class="layui-col-xs6">
+								<div class="layui-progress layui-progress-big" lay-showPercent="yes" style="margin-top: 12px;">
+									<div class="layui-progress-bar layui-bg-green" lay-percent="50%"></div>
+								</div>
+								<div class="layui-form-mid layui-word-aux">用于商户存储图片、视频等多媒体资源</div>
+							</div>
+							<div class="layui-col-xs3" style="padding: 12px 0 0 14px;">
+								<span class="layui-badge layui-bg-gray">
+									<span class="layui-icon layui-icon-left"></span> 
+								</span>
+                                <span class="layui-badge layui-bg-gray">
+                                <span class="layui-icon layui-icon-right"></span> 
+                                </span>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label"><span>*</span>价格</label>
+							<div class="layui-col-xs6">
+								<div class="layui-form-mid layui-word-aux">0元</div>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button class="layui-btn" lay-submit="" lay-filter="demo1">提交</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 选择文件库弹出层 -->
+	<div id="fileLib" hidden="">
+		<div class="top">
+			<div class="layui-input-block layui-form" style="margin-top: 8px;">
+				<input type="checkbox" lay-filter="ckb" lay-skin="primary" title="全选">
+			</div>
+			<button class="layui-btn layui-btn-danger" @click="deleteLibImg()">删除</button>
+			<button class="layui-btn layui-btn-normal upload" lay-data="{id: 'menusList'}">上传图片</button>
+			<div class="top-select layui-form" id="select_tpl_view"></div>
+		</div>
+		<div class="middle">
+			<div class="left">
+				<div class="left-title" @click="addFolder()"><i class="icon-circle layui-icon layui-icon-add-circle"></i>添加分组</div>
+				<div v-for="(item,index) in groupList" :style="activeValue == index ? 'background: #fff' : ''" @click="clickFolder(index,item.id)">
+					<img src="static/img/folder.png" alt=""/>
+					<span v-if="isEditing && index == activeValue"><input class="editing-input" type="text" :value="item.name"></span>
+					<span v-else>{{ item.name }}</span>
+					<i @click.stop="editFolder(index)" v-show="index>1 && !(isEditing && index == activeValue)" class="icon-set layui-icon layui-icon-set"></i>
+					<div class="set-extend" v-if="index == editValue">
+						<span class="extend-edit" @click.stop="edit(item.name)">编辑</span>
+						<span class="extend-delete" @click.stop="deleteFolder(item)">删除</span>
+					</div>
+					<div class="set-extend" v-if="isEditing && index == activeValue">
+						<span class="extend-edit" @click.stop="confirmOrCancleEdit(index)">确认</span>
+						<span class="extend-delete" @click.stop="confirmOrCancleEdit(index,1)">取消</span>
+					</div>
+				</div>
+			</div>
+			<div class="right">
+				<div class="right-img" v-for="(item,idx) in fileList" @click="toggleSelected(idx)">
+					<img :src="item.file_url" alt=""/>
+					<div class="img-selected" v-if="item.selected == 1"><img src="static/img/selected.png" alt=""></div>
+				</div>
+			</div>
+		</div>
+		<div class="bottom">
+			<span v-if="!isLoadingMore">加载更多</span>
+			<span v-else><i class="layui-icon layui-icon-loading"></i></span>
+		</div>
+	</div>
+</div>
+<!-- 选择文件下拉列表框 -->
+<script type="text/html" id="select_tpl">
+	<select name="quiz1" lay-filter="select_lib">
+		<option value="">移动</option>
+		{{#  layui.each(d.list, function(index, item){ }}
+			<option value="{{item.id}}">{{item.name}}</option>
+		{{#  }); }}
+  	</select>		   
+</script>
+
+<script type="text/javascript">
+	layui.use(['setting'], function() {
+		var setting = layui.setting;
+        setting.ac();
+	});
+</script>
+</div>

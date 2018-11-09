@@ -1,0 +1,95 @@
+<script type="text/html" template>
+  <link rel="stylesheet" href="{{ layui.setter.base }}style/order-list.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">主页</a>
+		<a><cite>订单</cite></a>
+		<a><cite>订单管理</cite></a>
+	</div>
+</div>
+<div class="contain layui-form" hidden>
+	<div class="header"><h3><b>订单管理</b></h3></div>
+	<!-- 选项卡 -->
+	<div class="middle">
+		<div class="tab"></div>
+		<div class="search">
+			<div class="search-select"></div>
+			<div class="search-input">
+				<div class="input-item layui-form-item">
+			      	<input id="search-input" type="text" name="search-input" placeholder="入住人" autocomplete="off" class="search-input1 layui-input">
+			      	<input id="search-input" type="text" name="search-input" placeholder="" autocomplete="off" class="search-input2 layui-input" style="display: none;">
+			      	<i class="layui-icon layui-icon-search"></i>
+			  	</div>
+			</div>
+			<div class="search-btn layui-btn layui-btn-normal" @click="search()">搜索</div>
+		</div>
+	</div>
+	<!-- 订单信息列表 -->
+	<div class="order">
+		<div class="exits" v-if="total!=0">
+			<div v-for="item in orderList">
+				<div class="orderInfo-title">
+					<span>{{ item.orderTime }}</span><span class="title-middle">{{ item.orderSource+item.orderNumber }}</span>
+					<span class="title-toDetail" @click="toOrderDetail(item.orderId)">详情</span>
+					<img class="img-arrow_r" src="static/img/arrow_r.png" alt="">
+					<span class="pink-icon" v-show='item.originalTotalUnitAmount'>改价</span>
+					<span class="title-state" :style="item.orderStatusLabel == '待支付'? 'color:#f30': ''">{{ item.orderStatusLabel }}</span>
+				</div>
+				<div class="order-context">
+					<div class="context-left">
+						<div class="left-img">
+							<img :src="item.pictureURL" alt="">
+						</div>
+						<div class="left-info">
+							<div class="info-title">{{ item.unitName }}({{ item.unitNumber }})</div>
+							<div>{{ item.productName }}</div>
+							<div>入住人：{{ item.guestName }}</div>
+							<div>入离日期：{{ item.checkInDate }}至{{ item.checkOutDate }}（共{{ item.bookingDays }}晚）</div>
+							<div class="info-paiqi"><a href="javascript:;" lay-href="room/status">查看排期</a></div>
+						</div>
+					</div>
+					<div class="context-middle">
+						<div>预定套数：{{ item.bookingCount }}套</div>
+						<div>总房费：￥{{ item.totalUnitAmount }}.00
+							<span v-show="item.originalTotalUnitAmount" style="text-decoration:line-through;margin-left:5px;">￥{{ item.originalTotalUnitAmount }}.00</span>
+						</div>
+					</div>
+					<div class="context-right">
+						<span style="cursor: pointer;" @click="modify_price(item.orderTime,item.totalUnitAmount)" v-show="item.orderStatusLabel == '待支付'">修改价格</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="null" v-else>
+			<div class="null-img"><img src="static/img/order/null.png" alt=""></div>
+			<div class="null-text">暂无相关订单</div>
+		</div>
+		<div class="page-box" v-show="total!=0">
+			<div class="box-recordNum">共{{ total }}条</div>
+			<div id="pages"></div>
+		</div>
+	</div>
+	<!-- 修改价格弹出层 -->
+	<div id="modify_price" hidden>
+		<div class="modify-title">房客支付剩余时间：<span class="timeout"></span></div>
+		<div class="total">总房费：<span class="total-price"></span></div>
+		<div class="youhui">优惠价 <span class="youhui-text">优惠价应不低于总房费的70%，即￥</span><span class="youhui-price"></span></div>
+		<div class="modify-input">
+			<div class="layui-form-item">
+		      	<input id="price-input" type="text" name="price-input" placeholder="请输入金额" autocomplete="off" class="layui-input">
+		  	</div>
+		  	<span>元</span>
+		</div>
+		<div class="foot"><img src="static/img/order/ts.png" alt="">价格仅支持修改一次，改价订单完成支付后将自动确认，请谨慎填写！</div>
+	</div>
+</div>
+
+<script>
+	layui.use(['order_list'],function(e) {
+        var order_list = layui.order_list;
+        order_list.ac();
+      
+    });
+</script>

@@ -1,0 +1,173 @@
+<style type="text/css">
+	.layui-btn{
+		height: 37px;
+		line-height: 37px;
+	}
+	.layui-upload{
+		margin-left: -10px;
+	}
+	a.layui-btn {
+		height: 20px;
+		line-height: 20px;
+	}
+	.add-form{
+		padding: 20px 0 0 70px;
+	}
+	.sh-img{
+		position: relative;
+	    width: 100px;
+	    height: 100px;
+	    line-height: 100px;
+	    border: 1px solid #e3e3e3;
+	    border-radius: 2px;
+	    overflow: hidden;
+	    margin: 5px 0 5px 110px;
+	    display: inline-block;
+	    text-align: center;
+	}
+	.img-xs{
+		position: absolute;
+	    top: 2px;
+	    left: 4px;
+	    font-size: .65rem;
+	    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75), 0 -1px 0 rgba(255, 255, 255, 0.75), 1px 0 0 rgba(255, 255, 255, 0.75), -1px 0 0 rgba(255, 255, 255, 0.75);
+	    font-weight: bold;
+	    color: rgba(0, 0, 0, 0.6);
+	    line-height: 1.25;
+	}
+	.sh-img img{
+	    max-width: 100%;
+	    max-height: 100%;
+	    margin: auto auto;
+	}
+	.layui-table-cell{
+		text-align: center;
+	}
+</style>
+
+<title>轮播图</title>
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">主页</a>
+		<a><cite>设置</cite></a>
+		<a><cite>轮播图</cite></a>
+	</div>
+</div>
+
+<script type="text/html" id="table-bar">
+	<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+</script>
+
+<div class="layui-fluid contain">
+	<div class="layui-card">
+		<div class="layui-card-body">
+			<div style="padding-bottom: 10px;">
+				<button class="layui-btn layuiadmin-btn-list" @click="deleteBanner()">删除</button>
+				<button class="layui-btn layuiadmin-btn-list" @click="addPopup('添加图片')">添加</button>
+			</div>
+			<table class="layui-hide" lay-filter="table" lay-data="{id: 'facility_table'}"></table>
+			<!-- <table id="bannerList" lay-filter="bannerList"></table> -->
+		</div>
+	</div>
+	<!-- 添加设施弹出层 -->
+	<div id="addPopup" hidden>
+		<form class="layui-form add-form" action="" lay-filter="add_banner">			
+			<div class="layui-form-item">
+				<label class="layui-form-label required">名称</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" autocomplete="off" name="title" id="input_title">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">图片地址</label>
+				<div class="dis-flex layui-input-inline">
+					<input type="text" name="bannerUrl" autocomplete="off" lay-verify="required" class="img-input layui-input" v-model="imgUrl">				
+				</div>
+				<div class="layui-upload layui-btn-group">
+					<button id="upload1" type="button" class="upload layui-btn layui-btn-primary" @mouseenter="Tips('上传文件','upload1')" @mouseleave="closeTips()" lay-data="{id: 'imgUrl'}">
+						<i class="layui-icon layui-icon-upload"></i>
+					</button>
+					<button id="lib1" type="button" class="lib layui-btn layui-btn-primary" @mouseenter="Tips('从文件库选择','lib1')" @mouseleave="closeTips()" @click="popupFileLib('imgUrl')">
+						<i class="layui-icon layui-icon-table"></i>
+					</button>
+					<button id="delete1" type="button" class="delete layui-btn layui-btn-primary" @click="deleteImg('shImg')" @mouseenter="Tips('删除文件','delete1')" @mouseleave="closeTips()">
+						<i class="layui-icon layui-icon-close"></i>
+					</button>
+				</div>				
+			</div>
+			<div class="sh-img">
+				<span class="img-xs">750x300</span>
+				<img :src="imgUrl" alt="">
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label required">小程序路径</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" autocomplete="off" name="title" id="input_title">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label required">是否显示</label>
+				<div class="layui-input-inline">
+					<select name="isShow">
+						<option value="0">不显示</option>
+						<option value="1">显示</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn layui-btn-normal" lay-submit lay-filter="add_banner">确认</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- 选择文件库弹出层 -->
+	<!-- <div id="fileLib" hidden="">
+		<div class="top">
+			<div class="layui-input-block layui-form" style="margin-top: 8px;">
+				<input type="checkbox" lay-filter="ckb" lay-skin="primary" title="全选">
+			</div>
+			<button class="layui-btn layui-btn-danger" @click="deleteLibImg()">删除</button>
+			<button class="layui-btn layui-btn-normal upload" lay-data="{id: 'menusList'}">上传图片</button>
+			<div class="top-select layui-form" id="select_tpl_view"></div>
+		</div>
+		<div class="middle">
+			<div class="left">
+				<div class="left-title" @click="addFolder()"><i class="icon-circle layui-icon layui-icon-add-circle"></i>添加分组</div>
+				<div v-for="(item,index) in groupList" :style="activeValue == index ? 'background: #fff' : ''" @click="clickFolder(index,item.id)">
+					<img src="static/img/folder.png" alt=""/>
+					<span v-if="isEditing && index == activeValue"><input class="editing-input" type="text" :value="item.name"></span>
+					<span v-else>{{ item.name }}</span>
+					<i @click.stop="editFolder(index)" v-show="index>1 && !(isEditing && index == activeValue)" class="icon-set layui-icon layui-icon-set"></i>
+					<div class="set-extend" v-if="index == editValue">
+						<span class="extend-edit" @click.stop="edit(item.name)">编辑</span>
+						<span class="extend-delete" @click.stop="deleteFolder(item)">删除</span>
+					</div>
+					<div class="set-extend" v-if="isEditing && index == activeValue">
+						<span class="extend-edit" @click.stop="confirmOrCancleEdit(index)">确认</span>
+						<span class="extend-delete" @click.stop="confirmOrCancleEdit(index,1)">取消</span>
+					</div>
+				</div>
+			</div>
+			<div class="right">
+				<div class="right-img" v-for="(item,idx) in fileList" @click="toggleSelected(idx)">
+					<img :src="item.file_url" alt=""/>
+					<div class="img-selected" v-if="item.selected == 1"><img src="static/img/selected.png" alt=""></div>
+				</div>
+			</div>
+		</div>
+		<div class="bottom">
+			<span v-if="!isLoadingMore">加载更多</span>
+			<span v-else><i class="layui-icon layui-icon-loading"></i></span>
+		</div>
+	</div> -->
+</div>
+
+<script>
+	layui.use(['banner'],function(e) {
+        var banner = layui.banner;
+      	banner.ac();
+
+    });
+</script>
